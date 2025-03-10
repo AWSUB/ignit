@@ -73,4 +73,8 @@ public final class AuthenticationService {
 
         return user;
     }
+
+    public void updatePassword() {
+        
+    }
 }
