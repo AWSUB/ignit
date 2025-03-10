@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  ignit:
+    container_name: "ignit_service"
+    build:
+      context: .
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=${{ secrets.DB_NAME }}
+      - DB_USER=${{ secrets.DB_USER }}
+      - DB_PASS=${{ secrets.DB_PASSWORD }}
+    ports:
+      - "3002:${PORT}"
+    networks:
+      - ignit
+      - postgres_network
+      
+networks:
+  ignit:
+    name: ignit
+    driver: bridge
+  postgres_network:
+    external: true
