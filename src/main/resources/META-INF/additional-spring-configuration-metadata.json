@@ -1,0 +1,32 @@
+{"properties": [
+  {
+    "name": "security.jwt.secret-key",
+    "type": "java.lang.String",
+    "description": "Jwt Secret Key"
+  },
+  {
+    "name": "security.jwt.expiration-time",
+    "type": "java.lang.String",
+    "description": "Jwt Expiration Time"
+  },
+  {
+    "name": "base.url",
+    "type": "java.lang.String",
+    "description": "Base Api Url"
+  },
+  {
+    "name": "midtrans.server-key",
+    "type": "java.lang.String",
+    "description": "Midtrans Server Key"
+  },
+  {
+    "name": "midtrans.client-key",
+    "type": "java.lang.String",
+    "description": "Midtrans Client Key"
+  },
+  {
+    "name": "midtrans.production",
+    "type": "java.lang.String",
+    "description": "Is midtrans on production"
+  }
+]}
