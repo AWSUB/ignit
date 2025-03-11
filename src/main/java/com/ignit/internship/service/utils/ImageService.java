@@ -24,7 +24,7 @@ public class ImageService {
         if (file == null) throw new FileUploadException("No file provided");
 
         if (file.getContentType() == null || !file.getContentType().startsWith("image")) {
-            throw new Exception("Wrong type");
+            throw new Exception("Not image type");
         }
         
         return imageRepository.save(

@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ignit.internship.dto.belajaryuk.StudyPackageRequest;
 import com.ignit.internship.dto.payment.PaymentNotificationRequest;
 import com.ignit.internship.dto.payment.TransactionResponse;
+import com.ignit.internship.enums.PaymentStatus;
 import com.ignit.internship.exception.IdNotFoundException;
 import com.ignit.internship.model.belajaryuk.StudyPackage;
 import com.ignit.internship.model.profile.UserProfile;
@@ -64,29 +65,32 @@ public class StudyPackageService {
         return studyPackageRepository.findById(id).orElseThrow(() -> new IdNotFoundException("Study Package not found"));
     }
 
-    public TransactionResponse createTransaction(Long profileId, Long packageId) throws Exception {
+    public TransactionResponse createStudyPackageTransaction(Long profileId, Long packageId) throws Exception {
+        if (studyPackageRepository.existsByProfileIdAndPackageId(profileId, packageId)) {
+            throw new Exception("Profile already bought study package");
+        }
         StudyPackage studyPackage = getStudyPackage(packageId);
         return paymentService.createTransaction(profileId, studyPackage.getId(), studyPackage.getPrice());
     }
 
-    public StudyPackage processPayment(PaymentNotificationRequest request) throws Exception {
-        paymentService.verifyPayment(request);
+    public void processStudyPackagePayment(PaymentNotificationRequest request) throws IllegalArgumentException, IdNotFoundException {
+        if (paymentService.verifyPayment(request) != PaymentStatus.SUCCESS) {
+            return;
+        }
         
         String[] orderId = request.getOrderId().split("-");
         Long packageId = Long.parseLong(orderId[0]);
         Long profileId = Long.parseLong(orderId[1]);
 
-        StudyPackage studyPackage = getStudyPackage(packageId);
-
-        if (studyPackageRepository.existsByProfileId(profileId)) {
-            return studyPackage;
+        if (studyPackageRepository.existsByProfileIdAndPackageId(profileId, packageId)) {
+            return;
         }
+
+        StudyPackage studyPackage = getStudyPackage(packageId);
 
         UserProfile profile = profileRepository.findById(profileId).orElseThrow(() -> new IdNotFoundException("Profile not found"));
 
         studyPackage.addProfile(profile);
         profile.addStudyPackage(studyPackage);
-
-        return studyPackage;
     }
 }

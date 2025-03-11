@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ignit.internship.dto.payment.PaymentNotificationRequest;
 import com.ignit.internship.dto.payment.TransactionResponse;
+import com.ignit.internship.enums.PaymentStatus;
 import com.ignit.internship.exception.IdNotFoundException;
 import com.ignit.internship.model.profile.UserProfile;
 import com.ignit.internship.repository.profile.ProfileRepository;
@@ -42,25 +43,27 @@ public class PaymentService {
         return new TransactionResponse(SnapApi.createTransactionToken(transactionRequest));
     }
 
-    public void verifyPayment(PaymentNotificationRequest request) throws Exception {
+    public PaymentStatus verifyPayment(PaymentNotificationRequest request) throws IllegalArgumentException {
         if (!request.getStatusCode().equals("200")) {
-            throw new Exception("Payment unsuccessful");
+            return PaymentStatus.FAILED;
         }
 
         if (request.getFraudStatus() != null && !request.getFraudStatus().equals("accept")) {
-            throw new Exception("Payment denied");
+            return PaymentStatus.FRAUDULENT;
         }
 
         if (!(request.getTransactionStatus().equals("capture") ||
             request.getTransactionStatus().equals("settlement"))
         ) {
-            throw new Exception("Payment unsuccessful");
+            return PaymentStatus.FAILED;
         }
 
         String compareSignature = Sha512DigestUtils.shaHex(request.getOrderId() + request.getStatusCode() + request.getGrossAmount() + Midtrans.getServerKey());
         
         if (!compareSignature.equals(request.getSignatureKey())) {
-            throw new Exception("Payment invalid");
+            throw new IllegalArgumentException("Payment invalid");
         }
+
+        return PaymentStatus.SUCCESS;
     }
 }

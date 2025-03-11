@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ignit.internship.dto.DefaultResponse;
 import com.ignit.internship.dto.ResponseReturn;
+import com.ignit.internship.dto.auth.ForgetPasswordRequest;
 import com.ignit.internship.dto.auth.JwtTokenResponse;
+import com.ignit.internship.dto.auth.ResetPasswordRequest;
 import com.ignit.internship.dto.auth.UserLoginRequest;
 import com.ignit.internship.dto.auth.UserRegisterRequest;
 import com.ignit.internship.service.auth.AuthenticationService;
@@ -48,6 +50,18 @@ public final class AuthenticationController {
 
     @GetMapping("/verify")
     public ResponseEntity<DefaultResponse<JwtTokenResponse>> verify(@RequestParam String token) throws AuthenticationException {
+        return ResponseReturn.ok(null);
+    }
+
+    @PostMapping("/forget-password")
+    public ResponseEntity<DefaultResponse<Object>> forgetPassword(@RequestBody ForgetPasswordRequest request) throws Exception {
+        authenticationService.forgetPassword(request);
+        return ResponseReturn.ok(null);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<DefaultResponse<Object>> resetPassword(@RequestBody ResetPasswordRequest request) throws Exception {
+        authenticationService.resetPassword(request);
         return ResponseReturn.ok(null);
     }
 }

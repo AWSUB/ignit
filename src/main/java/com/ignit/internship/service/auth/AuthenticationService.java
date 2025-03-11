@@ -1,14 +1,17 @@
 package com.ignit.internship.service.auth;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ignit.internship.dto.auth.ForgetPasswordRequest;
+import com.ignit.internship.dto.auth.ResetPasswordRequest;
 import com.ignit.internship.dto.auth.UserLoginRequest;
 import com.ignit.internship.dto.auth.UserRegisterRequest;
 import com.ignit.internship.model.auth.User;
@@ -36,8 +39,9 @@ public final class AuthenticationService {
         this.emailService = emailService;
     }
 
+    //use front-end url for email
     public void register(UserRegisterRequest register) {
-        User registeredUser = userRepository.save(new User(
+        User user = userRepository.save(new User(
             register.getUsername(),
             passwordEncoder.encode(register.getPassword()),
             register.getEmail(),
@@ -45,15 +49,15 @@ public final class AuthenticationService {
         ));
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(registeredUser.getEmail());
+        mailMessage.setTo(user.getEmail());
         mailMessage.setSubject("Ignit User Verification");
-        mailMessage.setText("Verify by clicking this link below:\n" + baseUrl + "/api/auth/verify?token=" + registeredUser.getVerificationToken());
+        mailMessage.setText("Verify by clicking this link below:\n" + baseUrl + "/api/auth/verify?token=" + user.getVerificationToken());
 
         emailService.sendEmail(mailMessage);
     }
 
-    public void verify(String token) throws AuthenticationException {
-        User user = userRepository.findByVerificationToken(token).orElseThrow(() -> new VerifyError("Verification failed"));
+    public void verify(String token) throws Exception {
+        User user = userRepository.findByVerificationToken(token).orElseThrow(() -> new Exception("Verification failed"));
         user.setEnabled(true);
         user.setVerificationToken(null);
 
@@ -74,7 +78,47 @@ public final class AuthenticationService {
         return user;
     }
 
-    public void updatePassword() {
+    public User updatePassword(UserLoginRequest login) throws Exception {
+        User user = userRepository.findByUsername(login.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        if (!passwordEncoder.matches(login.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("Password not match");
+        }
+
+        if (!user.isEnabled()) {
+            throw new Exception("User not verified");
+        }
+
+        user.setPassword(login.getPassword());
+
+        return userRepository.save(user);
+    }
+
+    //use front-end url for email
+    public void forgetPassword(ForgetPasswordRequest request) throws Exception {
+        User user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        if (!user.getEmail().equals(request.getEmail())) {
+            throw new Exception("Email not match");
+        }
+
+        user.setVerificationToken(UUID.randomUUID().toString());
         
+        User savedUser = userRepository.save(user);
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(savedUser.getEmail());
+        mailMessage.setSubject("Ignit User Forgot Password");
+        mailMessage.setText(
+            "Change your password by clicking this link below:\n" + baseUrl + "/api/auth/reset-password?token=" + savedUser.getVerificationToken()
+        );        
+    }
+
+    public void resetPassword(ResetPasswordRequest request) throws Exception {
+        User user = userRepository.findByVerificationToken(request.getToken()).orElseThrow(() -> new Exception("User not found"));
+        user.setVerificationToken(null);
+        user.setPassword(request.getPassword());
+
+        userRepository.save(user);        
     }
 }
