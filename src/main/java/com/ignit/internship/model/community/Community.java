@@ -1,41 +1,37 @@
 package com.ignit.internship.model.community;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.ignit.internship.model.utils.Tag;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Community {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String title;
 
-    @Column(columnDefinition = "text")
     private String content;
 
-    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<UserThread> threads;
+    private String url;
 
-    @SuppressWarnings("unused")
-    private Community() {}
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Tag> tags;
 
-    public Community(String title, String content) {
+    public Community(String title, String content, String url, List<Tag> tags) {
         this.title = title;
         this.content = content;
-        this.threads = new ArrayList<UserThread>();
+        this.url = url;
+        this.tags = tags;
     }
 
     public Long getId() {
@@ -58,11 +54,19 @@ public class Community {
         this.content = content;
     }
 
-    public List<UserThread> getThreads() {
-        return threads;
+    public String getUrl() {
+        return url;
     }
 
-    public void addThread(UserThread thread) {
-        this.threads.add(thread);
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }

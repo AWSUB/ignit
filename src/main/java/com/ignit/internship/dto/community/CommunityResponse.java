@@ -2,8 +2,9 @@ package com.ignit.internship.dto.community;
 
 import java.util.List;
 
-public class CommunityRequest {
+import com.ignit.internship.model.community.Community;
 
+public class CommunityResponse {
     private String title;
 
     private String content;
@@ -12,11 +13,20 @@ public class CommunityRequest {
 
     private List<String> tags;
 
-    public CommunityRequest(String title, String content, String url, List<String> tags) {
+    public CommunityResponse(String title, String content, String url, List<String> tags) {
         this.title = title;
         this.content = content;
         this.url = url;
         this.tags = tags;
+    }
+
+    public CommunityResponse(Community community) {
+        this(
+            community.getTitle(),
+            community.getContent(),
+            community.getUrl(),
+            community.getTags().stream().map(t -> t.getName()).toList()
+        );
     }
 
     public String getTitle() {

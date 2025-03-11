@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.ignit.internship.model.auth.User;
 import com.ignit.internship.model.belajaryuk.StudyPackage;
-import com.ignit.internship.model.community.UserComment;
-import com.ignit.internship.model.community.UserThread;
 import com.ignit.internship.model.temukarier.Project;
 
 import jakarta.persistence.CascadeType;
@@ -47,12 +45,6 @@ public class UserProfile {
     @MapsId
     private User user;
 
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserThread> userThreads;
-
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserComment> userComments;
-
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     private List<Project> projects;
 
@@ -68,8 +60,6 @@ public class UserProfile {
         this.email = user.getEmail();
         this.educations = new ArrayList<Education>();
         this.skills = new ArrayList<Skill>();
-        this.userThreads = new ArrayList<UserThread>();
-        this.userComments = new ArrayList<UserComment>();
         this.projects = new ArrayList<Project>();
         this.studyPackages = new ArrayList<StudyPackage>();
     }
@@ -140,22 +130,6 @@ public class UserProfile {
         this.skills.removeIf((skill) -> {
             return skill.getId() == id;
         });
-    }
-
-    public List<UserThread> getUserThreads() {
-        return userThreads;
-    }
-
-    public void addUserThreads(UserThread thread) {
-        this.userThreads.add(thread);
-    }
-
-    public List<UserComment> getUserComments() {
-        return userComments;
-    }
-
-    public void addUserComments(UserComment comment) {
-        this.userComments.add(comment);
     }
 
     public List<Project> getProjects() {
