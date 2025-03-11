@@ -61,19 +61,19 @@ public class BootcampController {
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "3") int size,
         @RequestParam(defaultValue = "id") String sortBy,
-        @RequestParam(required = false) String tag,
+        @RequestParam(required = false) List<String> tags,
         @RequestParam(defaultValue = "true") boolean ascending
     ) {
         Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, size, sort);
-        if (tag == null) {
+        if (tags == null) {
             return ResponseReturn.ok(
                 bootcampService.getBootcampByPage(pageable).stream().map(b -> new BootcampResponse(b)).toList()
             );
         }
         else {
             return ResponseReturn.ok(
-                bootcampService.getBootcampByPageAndTag(pageable, tag).stream().map(b -> new BootcampResponse(b)).toList()
+                bootcampService.getBootcampByPageAndTag(pageable, tags).stream().map(b -> new BootcampResponse(b)).toList()
             );
         }
     }  

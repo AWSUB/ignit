@@ -42,8 +42,8 @@ public class MagangService {
         return magangRepository.findAll(pageable).toList();
     }
 
-    public List<Magang> getMagangByPageAndTag(Pageable pageable, String tag) {
-        return magangRepository.findByTagName(tag, pageable).toList();
+    public List<Magang> getMagangByPageAndTag(Pageable pageable, List<String> tags) {
+        return magangRepository.findByMultipleTagName(tags, tags.size(), pageable).toList();
     }
 
     public Magang createMagang(MultipartFile file, MagangRequest request) throws Exception {

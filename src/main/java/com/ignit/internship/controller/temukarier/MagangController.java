@@ -61,19 +61,19 @@ public class MagangController {
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "3") int size,
         @RequestParam(defaultValue = "id") String sortBy,
-        @RequestParam(required = false) String tag,
+        @RequestParam(required = false) List<String> tags,
         @RequestParam(defaultValue = "true") boolean ascending
     ) {
         Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, size, sort);
-        if (tag == null) {
+        if (tags == null) {
             return ResponseReturn.ok(
                 magangService.getMagangByPage(pageable).stream().map(m -> new MagangResponse(m)).toList()
             );
         }
         else {
             return ResponseReturn.ok(
-                magangService.getMagangByPageAndTag(pageable, tag).stream().map(m -> new MagangResponse(m)).toList()
+                magangService.getMagangByPageAndTag(pageable, tags).stream().map(m -> new MagangResponse(m)).toList()
             );
         }
     }    

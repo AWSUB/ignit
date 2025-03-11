@@ -41,8 +41,8 @@ public class BootcampService {
         return bootcampRepository.findAll(pageable).toList();
     }
 
-    public List<Bootcamp> getBootcampByPageAndTag(Pageable pageable, String tag) {
-        return bootcampRepository.findByTagName(tag, pageable).toList();
+    public List<Bootcamp> getBootcampByPageAndTag(Pageable pageable, List<String> tags) {
+        return bootcampRepository.findByMultipleTagName(tags, tags.size(), pageable).toList();
     }
 
     public Bootcamp createBootcamp(MultipartFile file, BootcampRequest request) throws Exception {

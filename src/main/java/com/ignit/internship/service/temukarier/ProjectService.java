@@ -48,8 +48,8 @@ public class ProjectService {
         return projectRepository.findAll(pageable).toList();
     }
 
-    public List<Project> getProjectByPageAndTag(Pageable pageable, String tag) {
-        return projectRepository.findByTagName(tag, pageable).toList();
+    public List<Project> getProjectByPageAndTag(Pageable pageable, List<String> tags) {
+        return projectRepository.findByMultipleTagName(tags, tags.size(), pageable).toList();
     }
 
     public Project createProject(MultipartFile file, ProjectRequest request, Long id) throws Exception {
