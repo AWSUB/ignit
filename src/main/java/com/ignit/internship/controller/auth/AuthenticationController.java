@@ -38,13 +38,14 @@ public final class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<DefaultResponse<Object>> register(@RequestBody @Valid UserRegisterRequest register) {
+    public ResponseEntity<DefaultResponse<Object>> register(@RequestBody @Valid UserRegisterRequest request) {
+        authenticationService.register(request);
         return ResponseReturn.ok(null);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<DefaultResponse<JwtTokenResponse>> login(@RequestBody UserLoginRequest login) throws Exception {
-        String token = jwtTokenService.buildToken(authenticationService.authenticate(login));
+    public ResponseEntity<DefaultResponse<JwtTokenResponse>> login(@RequestBody UserLoginRequest request) throws Exception {
+        String token = jwtTokenService.buildToken(authenticationService.authenticate(request));
         return ResponseReturn.ok(new JwtTokenResponse(token));
     }
 
