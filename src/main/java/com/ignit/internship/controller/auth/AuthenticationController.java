@@ -61,8 +61,11 @@ public final class AuthenticationController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<DefaultResponse<Object>> resetPassword(@RequestBody ResetPasswordRequest request) throws Exception {
-        authenticationService.resetPassword(request);
+    public ResponseEntity<DefaultResponse<Object>> resetPassword(
+        @Valid @RequestBody ResetPasswordRequest request,
+        @RequestParam String token
+    ) throws Exception {
+        authenticationService.resetPassword(token, request);
         return ResponseReturn.ok(null);
     }
 }

@@ -116,8 +116,8 @@ public final class AuthenticationService {
         );        
     }
 
-    public void resetPassword(ResetPasswordRequest request) throws Exception {
-        User user = userRepository.findByVerificationToken(request.getToken()).orElseThrow(() -> new Exception("User not found"));
+    public void resetPassword(String token, ResetPasswordRequest request) throws Exception {
+        User user = userRepository.findByVerificationToken(token).orElseThrow(() -> new Exception("User not found"));
         user.setVerificationToken(null);
         user.setPassword(request.getPassword());
 
