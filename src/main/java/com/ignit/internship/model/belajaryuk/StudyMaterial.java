@@ -2,7 +2,8 @@ package com.ignit.internship.model.belajaryuk;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
+import static jakarta.persistence.CascadeType.*;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -28,7 +29,7 @@ public class StudyMaterial {
     @Column(columnDefinition = "text")
     private String content;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private StudyModule module;
 
     @SuppressWarnings("unused")

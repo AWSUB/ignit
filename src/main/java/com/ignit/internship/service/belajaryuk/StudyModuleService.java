@@ -33,6 +33,10 @@ public class StudyModuleService {
         this.studyPackageRepository = studyPackageRepository;
         this.imageService = imageService;
     }
+
+    public StudyModule getStudyModuleById(Long id) throws IdNotFoundException {
+        return studyModuleRepository.findById(id).orElseThrow(() -> new IdNotFoundException("Study Module not found"));
+    }
     
     @Transactional
     public StudyModule createStudyModule(MultipartFile file, StudyModuleRequest request) throws Exception {
@@ -52,7 +56,5 @@ public class StudyModuleService {
         return studyModule;
     }
 
-    public StudyModule getStudyModuleById(Long id) throws IdNotFoundException {
-        return studyModuleRepository.findById(id).orElseThrow(() -> new IdNotFoundException("Study Module not found"));
-    }
+    
 }

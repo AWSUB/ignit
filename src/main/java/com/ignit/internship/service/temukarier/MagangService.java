@@ -15,6 +15,8 @@ import com.ignit.internship.repository.temukarier.MagangRepository;
 import com.ignit.internship.repository.utils.TagRepository;
 import com.ignit.internship.service.utils.ImageService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class MagangService {
 
@@ -46,6 +48,7 @@ public class MagangService {
         return magangRepository.findByMultipleTagName(tags, tags.size(), pageable).toList();
     }
 
+    @Transactional
     public Magang createMagang(MultipartFile file, MagangRequest request) throws Exception {
         if (!tagRepository.existsAllById(request.getTags())) {
             throw new IdNotFoundException("Tag not found");
@@ -62,8 +65,13 @@ public class MagangService {
         ));
     }
 
+    @Transactional
     public Magang updateMagang(MagangRequest request, Long id) throws IdNotFoundException, IOException {
-        Magang magang = magangRepository.findById(id).orElseThrow(() -> new IdNotFoundException("Magang not found"));
+        if (!tagRepository.existsAllById(request.getTags())) {
+            throw new IdNotFoundException("Tag not found");
+        }
+
+        Magang magang = getMagangById(id);
 
         magang.setName(request.getName());
         magang.setDescription(request.getDescription());
@@ -73,6 +81,7 @@ public class MagangService {
         return magangRepository.save(magang);
     }
 
+    @Transactional
     public void deleteMagang(Long id) throws IdNotFoundException {
         Magang magang = getMagangById(id);
         imageService.deleteImage(magang.getImageId());

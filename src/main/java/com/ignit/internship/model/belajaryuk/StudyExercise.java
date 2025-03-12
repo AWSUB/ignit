@@ -2,8 +2,9 @@ package com.ignit.internship.model.belajaryuk;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
+import static jakarta.persistence.CascadeType.*;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,7 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class StudyExcercise {
+public class StudyExercise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +20,7 @@ public class StudyExcercise {
 
     private Long thumbnailId;
 
+    @ElementCollection
     private List<Long> imageIds;
 
     private String title;
@@ -26,13 +28,13 @@ public class StudyExcercise {
     @Column(columnDefinition = "text")
     private String content;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private StudyModule module;
 
     @SuppressWarnings("unused")
-    private StudyExcercise() {}
+    private StudyExercise() {}
 
-    public StudyExcercise(
+    public StudyExercise(
         String title, 
         Long thumbnailId,
         List<Long> imageIds, 

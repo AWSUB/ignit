@@ -6,7 +6,8 @@ import java.util.List;
 import com.ignit.internship.model.profile.UserProfile;
 import com.ignit.internship.model.utils.Tag;
 
-import jakarta.persistence.CascadeType;
+import static jakarta.persistence.CascadeType.*;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,13 +31,13 @@ public class StudyPackage {
 
     private Long price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private Tag tag;
 
-    @OneToMany(mappedBy = "studyPackage", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "studyPackage", cascade = ALL, orphanRemoval = true)
     private List<StudyModule> modules;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private List<UserProfile> profiles;
 
     public StudyPackage(

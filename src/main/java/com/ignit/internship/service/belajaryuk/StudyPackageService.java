@@ -1,5 +1,8 @@
 package com.ignit.internship.service.belajaryuk;
 
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,6 +49,19 @@ public class StudyPackageService {
         this.profileRepository = profileRepository;
     }
 
+
+    public StudyPackage getStudyPackageById(Long id) throws IdNotFoundException {
+        return studyPackageRepository.findById(id).orElseThrow(() -> new IdNotFoundException("Study Package not found"));
+    }
+
+    public List<StudyPackage> getStudyPackageByPage(Pageable pageable) {
+        return studyPackageRepository.findAll(pageable).toList();
+    }
+
+    public List<StudyPackage> getStudyPackageByPageAndTag(Pageable pageable, String tag) {
+        return studyPackageRepository.findByTagName(tag, pageable).toList();
+    }
+
     @Transactional
     public StudyPackage createStudyPackage(MultipartFile file, StudyPackageRequest request) throws Exception {
         Image image = imageService.uploadImage(file);
@@ -61,15 +77,34 @@ public class StudyPackageService {
         return studyPackage;
     }
 
-    public StudyPackage getStudyPackage(Long id) throws IdNotFoundException {
-        return studyPackageRepository.findById(id).orElseThrow(() -> new IdNotFoundException("Study Package not found"));
+    @Transactional
+    public StudyPackage updateStudyPackage(Long id, StudyPackageRequest request) throws IdNotFoundException {
+        if (!tagRepository.existsById(request.getTag())) {
+            throw new IdNotFoundException("Tag not found");
+        }
+
+        StudyPackage studyPackage = getStudyPackageById(id);
+        
+        studyPackage.setTitle(request.getTitle());
+        studyPackage.setSubtitle(request.getSubtitle());
+        studyPackage.setPrice(request.getPrice());
+        studyPackage.setTag(tagRepository.findById(request.getTag()).orElseThrow(() -> new IdNotFoundException("Tag not found")));
+
+        return studyPackageRepository.save(studyPackage);
+    }
+
+    public void deleteStudyPackage(Long id) throws IdNotFoundException {
+        StudyPackage studyPackage = getStudyPackageById(id);
+        imageService.deleteImage(studyPackage.getImageId());
+        studyPackageRepository.deleteById(id);
     }
 
     public TransactionResponse createStudyPackageTransaction(Long profileId, Long packageId) throws Exception {
         if (studyPackageRepository.existsByProfileIdAndPackageId(profileId, packageId)) {
-            throw new Exception("Profile already bought study package");
+            throw new Exception("Profile already bought the study package");
         }
-        StudyPackage studyPackage = getStudyPackage(packageId);
+        
+        StudyPackage studyPackage = getStudyPackageById(packageId);
         return paymentService.createTransaction(profileId, studyPackage.getId(), studyPackage.getPrice());
     }
 
@@ -86,7 +121,7 @@ public class StudyPackageService {
             return;
         }
 
-        StudyPackage studyPackage = getStudyPackage(packageId);
+        StudyPackage studyPackage = getStudyPackageById(packageId);
 
         UserProfile profile = profileRepository.findById(profileId).orElseThrow(() -> new IdNotFoundException("Profile not found"));
 

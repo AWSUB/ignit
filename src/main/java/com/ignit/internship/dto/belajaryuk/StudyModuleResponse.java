@@ -14,7 +14,7 @@ public class StudyModuleResponse {
 
     private List<Long> materialIds;
 
-    private List<Long> excerciseIds;
+    private List<Long> exerciseIds;
 
     private Long studyPackageId;
 
@@ -23,14 +23,14 @@ public class StudyModuleResponse {
         Long imageId, 
         String introduction, 
         List<Long> materialIds,    
-        List<Long> excerciseIds, 
+        List<Long> exerciseIds, 
         Long studyPackageId
     ) {
         this.title = title;
         this.imageId = imageId;
         this.introduction = introduction;
         this.materialIds = materialIds;
-        this.excerciseIds = excerciseIds;
+        this.exerciseIds = exerciseIds;
         this.studyPackageId = studyPackageId;
     }
 
@@ -40,7 +40,7 @@ public class StudyModuleResponse {
             module.getImageId(),
             module.getIntroduction(),
             module.getMaterials().stream().map(m -> m.getId()).toList(),
-            module.getExcercises().stream().map(e -> e.getId()).toList(),
+            module.getExercises().stream().map(e -> e.getId()).toList(),
             module.getStudyPackage().getId()
         );
     }
@@ -61,8 +61,8 @@ public class StudyModuleResponse {
         return materialIds;
     }
 
-    public List<Long> getExcerciseIds() {
-        return excerciseIds;
+    public List<Long> getExerciseIds() {
+        return exerciseIds;
     }
 
     public Long getStudyPackageId() {

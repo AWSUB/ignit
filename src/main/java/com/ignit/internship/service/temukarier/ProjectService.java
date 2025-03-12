@@ -20,6 +20,8 @@ import com.ignit.internship.repository.utils.TagRepository;
 import com.ignit.internship.service.utils.EmailService;
 import com.ignit.internship.service.utils.ImageService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ProjectService {
 
@@ -62,6 +64,7 @@ public class ProjectService {
         return projectRepository.findByMultipleTagName(tags, tags.size(), pageable).toList();
     }
 
+    @Transactional
     public Project createProject(MultipartFile file, ProjectRequest request, Long id) throws Exception {
         if (!tagRepository.existsAllById(request.getTags())) {
             throw new IdNotFoundException("Tag not found");
@@ -86,7 +89,12 @@ public class ProjectService {
         return project;
     }
 
+    @Transactional
     public Project updateProject(ProjectRequest request, Long projectId, Long profileId) throws IdNotFoundException, IOException {
+        if (!tagRepository.existsAllById(request.getTags())) {
+            throw new IdNotFoundException("Tag not found");
+        }
+
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new IdNotFoundException("Project not found"));
 
         if (project.getProfile().getId() != profileId) throw new IdNotFoundException("User can only update their own project");
@@ -100,6 +108,7 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
+    @Transactional
     public void deleteProject(Long id) throws IdNotFoundException {
         Project project = getProjectById(id);
         imageService.deleteImage(project.getImageId());
@@ -126,6 +135,7 @@ public class ProjectService {
         emailService.sendEmail(mailMessage);
     }
 
+    @Transactional
     public void approveJoinProject(Long profileId, Long projectId, Long applicantId) throws Exception {
         Project project = getProjectById(projectId);
         if (project.getProfile().getId() != profileId) {

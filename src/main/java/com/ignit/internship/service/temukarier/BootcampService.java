@@ -15,6 +15,8 @@ import com.ignit.internship.repository.temukarier.BootcampRepository;
 import com.ignit.internship.repository.utils.TagRepository;
 import com.ignit.internship.service.utils.ImageService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class BootcampService {
     private final BootcampRepository bootcampRepository;
@@ -45,6 +47,7 @@ public class BootcampService {
         return bootcampRepository.findByMultipleTagName(tags, tags.size(), pageable).toList();
     }
 
+    @Transactional
     public Bootcamp createBootcamp(MultipartFile file, BootcampRequest request) throws Exception {
         if (!tagRepository.existsAllById(request.getTags())) {
             throw new IdNotFoundException("Tag not found");
@@ -61,8 +64,13 @@ public class BootcampService {
         ));
     }
 
+    @Transactional
     public Bootcamp updateBootcamp(BootcampRequest request, Long id) throws IdNotFoundException, IOException {
-        Bootcamp bootcamp = bootcampRepository.findById(id).orElseThrow(() -> new IdNotFoundException("bootcamp not found"));
+        if (!tagRepository.existsAllById(request.getTags())) {
+            throw new IdNotFoundException("Tag not found");
+        }
+
+        Bootcamp bootcamp = getBootcampById(id);
 
         bootcamp.setName(request.getName());
         bootcamp.setDescription(request.getDescription());
@@ -72,6 +80,7 @@ public class BootcampService {
         return bootcampRepository.save(bootcamp);
     }
 
+    @Transactional
     public void deleteBootcamp(Long id) throws IdNotFoundException {
         Bootcamp bootcamp = getBootcampById(id);
         imageService.deleteImage(bootcamp.getImageId());

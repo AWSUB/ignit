@@ -8,6 +8,8 @@ import com.ignit.internship.model.community.Community;
 import com.ignit.internship.repository.community.CommunityRepository;
 import com.ignit.internship.repository.utils.TagRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class CommunityService {
 
@@ -27,6 +29,7 @@ public class CommunityService {
         return communityRepository.findById(id).orElseThrow(() -> new IdNotFoundException("Community not found"));
     }
 
+    @Transactional
     public Community createCommunity(CommunityRequest request) throws IdNotFoundException {
         if (!tagRepository.existsAllById(request.getTags())) {
             throw new IdNotFoundException("Tag not found");
@@ -40,6 +43,7 @@ public class CommunityService {
         ));
     }
 
+    @Transactional
     public Community updateCommunity(CommunityRequest request, Long id) throws IdNotFoundException {
         if (!tagRepository.existsAllById(request.getTags())) {
             throw new IdNotFoundException("Tag not found");

@@ -14,7 +14,6 @@ import com.ignit.internship.dto.belajaryuk.StudyModuleRequest;
 import com.ignit.internship.exception.IdNotFoundException;
 import com.ignit.internship.service.belajaryuk.StudyModuleService;
 
-
 @RestController
 @RequestMapping("/api/belajaryuk/modules")
 public class StudyModuleController {

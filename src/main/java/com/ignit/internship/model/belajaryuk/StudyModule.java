@@ -3,7 +3,8 @@ package com.ignit.internship.model.belajaryuk;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
+import static jakarta.persistence.CascadeType.*;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,13 +27,13 @@ public class StudyModule {
     @Column(columnDefinition = "text")
     private String introduction;
 
-    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "module", cascade = ALL, orphanRemoval = true)
     private List<StudyMaterial> materials;
 
-    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL)
-    private List<StudyExcercise> excercises;
+    @OneToMany(mappedBy = "module", cascade = ALL, orphanRemoval = true)
+    private List<StudyExercise> exercises;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private StudyPackage studyPackage;
 
     @SuppressWarnings("unused")
@@ -48,7 +49,7 @@ public class StudyModule {
         this.introduction = introduction;
         this.imageId = imageId;
         this.materials = new ArrayList<StudyMaterial>();
-        this.excercises = new ArrayList<StudyExcercise>();
+        this.exercises = new ArrayList<StudyExercise>();
         this.studyPackage = studyPackage;
     }
 
@@ -88,12 +89,12 @@ public class StudyModule {
         this.materials = materials;
     }
 
-    public List<StudyExcercise> getExcercises() {
-        return excercises;
+    public List<StudyExercise> getExercises() {
+        return exercises;
     }
 
-    public void setExcercises(List<StudyExcercise> excercises) {
-        this.excercises = excercises;
+    public void setExercises(List<StudyExercise> exercises) {
+        this.exercises = exercises;
     }
 
     public StudyPackage getStudyPackage() {

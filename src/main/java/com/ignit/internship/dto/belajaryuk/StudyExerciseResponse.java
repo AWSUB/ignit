@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ignit.internship.model.belajaryuk.StudyMaterial;
 
-public class StudyExcerciseResponse {
+public class StudyExerciseResponse {
     private String title;
 
     private Long thumbnailId;
@@ -15,7 +15,7 @@ public class StudyExcerciseResponse {
 
     private Long moduleId;
 
-    public StudyExcerciseResponse(
+    public StudyExerciseResponse(
         String title, 
         Long thumbnailId, 
         List<Long> imageIds, 
@@ -29,7 +29,7 @@ public class StudyExcerciseResponse {
         this.moduleId = moduleId;
     }
 
-    public StudyExcerciseResponse(StudyMaterial material) {
+    public StudyExerciseResponse(StudyMaterial material) {
         this(
             material.getTitle(),
             material.getThumbnailId(),

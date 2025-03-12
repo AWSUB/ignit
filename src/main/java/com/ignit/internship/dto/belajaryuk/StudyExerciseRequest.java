@@ -1,12 +1,12 @@
 package com.ignit.internship.dto.belajaryuk;
 
-public class StudyExcerciseRequest {
+public class StudyExerciseRequest {
 
     private String title;
 
     private String content;
 
-    public StudyExcerciseRequest(String title, String content) {
+    public StudyExerciseRequest(String title, String content) {
         this.title = title;
         this.content = content;
     }
