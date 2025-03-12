@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.ignit.internship.model.utils.Tag;
 import com.ignit.internship.repository.utils.TagRepository;
 
-
 @Service
 public class TagService {
 
@@ -23,5 +22,9 @@ public class TagService {
 
     public List<Tag> getAllTag() {
         return tagRepository.findAll();
+    }
+
+    public void deleteTag(String name) {
+        tagRepository.deleteById(name);
     }
 }

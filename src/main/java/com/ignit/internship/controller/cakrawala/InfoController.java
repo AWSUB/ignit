@@ -52,5 +52,4 @@ public class InfoController {
     ) throws IdNotFoundException, IOException {
         return ResponseReturn.ok(new InfoResponse(infoService.updateInfo(request, name)));
     }
-    
 }

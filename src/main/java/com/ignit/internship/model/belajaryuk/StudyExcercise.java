@@ -1,6 +1,9 @@
 package com.ignit.internship.model.belajaryuk;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,14 +19,30 @@ public class StudyExcercise {
 
     private Long thumbnailId;
 
+    private List<Long> imageIds;
+
+    private String title;
+
+    @Column(columnDefinition = "text")
+    private String content;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private StudyModule module;
 
     @SuppressWarnings("unused")
     private StudyExcercise() {}
 
-    public StudyExcercise(Long thumbhnailId, StudyModule module) {
-        this.thumbnailId = thumbhnailId;
+    public StudyExcercise(
+        String title, 
+        Long thumbnailId,
+        List<Long> imageIds, 
+        String content, 
+        StudyModule module
+    ) {
+        this.title = title;
+        this.imageIds = imageIds;
+        this.thumbnailId = thumbnailId;
+        this.content = content;
         this.module = module;
     }
 
@@ -37,6 +56,30 @@ public class StudyExcercise {
 
     public void setThumbnailId(Long thumbnailId) {
         this.thumbnailId = thumbnailId;
+    }
+
+    public List<Long> getImageIds() {
+        return imageIds;
+    }
+
+    public void setImageIds(List<Long> imageIds) {
+        this.imageIds = imageIds;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String text) {
+        this.content = text;
     }
 
     public StudyModule getModule() {

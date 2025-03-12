@@ -10,7 +10,8 @@ import com.ignit.internship.enums.ProjectStatus;
 import com.ignit.internship.model.profile.UserProfile;
 import com.ignit.internship.model.utils.Tag;
 
-import jakarta.persistence.CascadeType;
+import static jakarta.persistence.CascadeType.*;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,11 +47,14 @@ public class Project {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private List<Tag> tags;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private UserProfile profile;
+
+    @ManyToMany(cascade = {PERSIST, MERGE, REFRESH, DETACH})
+    private List<UserProfile> members;
 
     @SuppressWarnings("unused")
     private Project() {}
@@ -135,5 +139,13 @@ public class Project {
 
     public UserProfile getProfile() {
         return profile;
+    }
+
+    public List<UserProfile> getMembers() {
+        return members;
+    }
+
+    public void addMembers(UserProfile profile) {
+        this.members.add(profile);
     }
 }

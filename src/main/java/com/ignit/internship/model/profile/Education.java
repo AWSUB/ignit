@@ -2,7 +2,8 @@ package com.ignit.internship.model.profile;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.CascadeType;
+import static jakarta.persistence.CascadeType.*;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,7 +31,7 @@ public class Education {
     @Temporal(value = TemporalType.DATE)
     private LocalDate endDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private UserProfile profile;
 
     @SuppressWarnings("unused")

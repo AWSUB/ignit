@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.ignit.internship.model.utils.Tag;
 
-import jakarta.persistence.CascadeType;
+import static jakarta.persistence.CascadeType.*;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +25,7 @@ public class Community {
 
     private String url;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private List<Tag> tags;
 
     public Community(String title, String content, String url, List<Tag> tags) {

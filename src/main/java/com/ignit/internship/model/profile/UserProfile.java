@@ -35,17 +35,17 @@ public class UserProfile {
     @Column(columnDefinition = "text")
     private String summary;
 
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Education> educations;
 
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Skill> skills;
 
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     private User user;
 
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     private List<Project> projects;
 
     @ManyToMany(mappedBy = "profiles", cascade = CascadeType.ALL)

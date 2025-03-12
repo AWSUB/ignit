@@ -72,4 +72,10 @@ public class MagangService {
 
         return magangRepository.save(magang);
     }
+
+    public void deleteMagang(Long id) throws IdNotFoundException {
+        Magang magang = getMagangById(id);
+        imageService.deleteImage(magang.getImageId());
+        magangRepository.deleteById(id);
+    }
 }

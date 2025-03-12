@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -83,5 +84,32 @@ public class ProjectController {
                 projectService.getProjectByPageAndTag(pageable, tags).stream().map(p -> new ProjectResponse(p)).toList()
             );
         }
+    }
+
+    @GetMapping("/{id}/join")
+    public ResponseEntity<DefaultResponse<Object>> joinProject(
+        @PathVariable Long id,
+        @CurrentSecurityContext SecurityContext context
+    ) throws IdNotFoundException {
+        User user = (User) context.getAuthentication().getPrincipal();
+        projectService.joinProject(user.getId(), id);
+        return ResponseReturn.ok(null);
+    }
+
+    @GetMapping("/{projectId}/approve/{applicantId}")
+    public ResponseEntity<DefaultResponse<Object>> approveJoinProject(
+        @PathVariable Long projectId,
+        @PathVariable Long applicantId,
+        @CurrentSecurityContext SecurityContext context
+    ) throws Exception {
+        User user = (User) context.getAuthentication().getPrincipal();
+        projectService.approveJoinProject(user.getId(), projectId, applicantId);
+        return ResponseReturn.ok(null);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<DefaultResponse<Object>> deleteProject(Long id) throws IdNotFoundException {
+        projectService.deleteProject(id);
+        return ResponseReturn.ok(null);
     }
 }

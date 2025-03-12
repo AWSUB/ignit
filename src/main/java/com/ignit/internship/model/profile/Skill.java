@@ -1,6 +1,7 @@
 package com.ignit.internship.model.profile;
 
-import jakarta.persistence.CascadeType;
+import static jakarta.persistence.CascadeType.*;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ public class Skill {
 
     private Integer year;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private UserProfile profile;
     
     @SuppressWarnings("unused")

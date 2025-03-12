@@ -9,6 +9,5 @@ import com.ignit.internship.model.profile.UserProfile;
 
 @Repository
 public interface ProfileRepository extends JpaRepository<UserProfile, Long> {
-    Optional<UserProfile> findByUsername(String username);
-    Optional<UserProfile> findByEmail(String email);    
+    Optional<UserProfile> findByUsername(String username);  
 }

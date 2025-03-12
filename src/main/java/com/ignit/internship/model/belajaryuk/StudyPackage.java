@@ -3,7 +3,6 @@ package com.ignit.internship.model.belajaryuk;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ignit.internship.model.profile.UserProfile;
 import com.ignit.internship.model.utils.Tag;
 
@@ -35,7 +34,6 @@ public class StudyPackage {
     private Tag tag;
 
     @OneToMany(mappedBy = "studyPackage", cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<StudyModule> modules;
 
     @ManyToMany(cascade = CascadeType.ALL)

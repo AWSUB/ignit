@@ -3,7 +3,9 @@ package com.ignit.internship.controller.utils;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +33,13 @@ public class TagController {
     }
 
     @GetMapping
-    ResponseEntity<DefaultResponse<List<TagResponse>>> getAllTag() {
+    public ResponseEntity<DefaultResponse<List<TagResponse>>> getAllTag() {
         return ResponseReturn.ok(tagService.getAllTag().stream().map(t -> new TagResponse(t)).toList());
+    }
+
+    @DeleteMapping("/{name}")
+    public ResponseEntity<DefaultResponse<Object>> deleteTag(@PathVariable String name) {
+        tagService.deleteTag(name);
+        return ResponseReturn.ok(null);
     }
 }

@@ -71,4 +71,10 @@ public class BootcampService {
 
         return bootcampRepository.save(bootcamp);
     }
+
+    public void deleteBootcamp(Long id) throws IdNotFoundException {
+        Bootcamp bootcamp = getBootcampById(id);
+        imageService.deleteImage(bootcamp.getImageId());
+        bootcampRepository.deleteById(id);
+    }
 }

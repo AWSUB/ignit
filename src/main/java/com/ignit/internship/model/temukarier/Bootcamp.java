@@ -8,7 +8,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.ignit.internship.model.utils.Tag;
 
-import jakarta.persistence.CascadeType;
+import static jakarta.persistence.CascadeType.*;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,7 +39,7 @@ public class Bootcamp {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private List<Tag> tags;
 
     @SuppressWarnings("unused")

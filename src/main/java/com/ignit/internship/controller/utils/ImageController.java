@@ -1,11 +1,13 @@
 package com.ignit.internship.controller.utils;
 
+import java.io.IOException;
 import java.net.URI;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +43,15 @@ public class ImageController {
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) throws IdNotFoundException {
         Image image = imageService.getImage(id);
         return ResponseEntity.ok().contentType(MediaType.valueOf(image.getType())).body(image.getData());
+    }
+
+    @PatchMapping(path = "/{id}", consumes = "multipart/form-data")
+    public ResponseEntity<DefaultResponse<Object>> updateImage(
+        @PathVariable Long id,
+        @RequestPart MultipartFile file
+    ) throws IdNotFoundException, IOException {
+        imageService.updateImage(file, id);
+        return ResponseReturn.ok(null);
     }
 
     @DeleteMapping("/(id)")

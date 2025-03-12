@@ -1,4 +1,4 @@
-package com.ignit.internship.service.auth;
+package com.ignit.internship.service.utils;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

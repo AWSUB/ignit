@@ -23,7 +23,7 @@ public class CommunityService {
         this.tagRepository = tagRepository;
     }
 
-    public Community getCommunityById(Long id) throws IdNotFoundException {
+    public Community getCommunity(Long id) throws IdNotFoundException {
         return communityRepository.findById(id).orElseThrow(() -> new IdNotFoundException("Community not found"));
     }
 
@@ -45,7 +45,7 @@ public class CommunityService {
             throw new IdNotFoundException("Tag not found");
         }
 
-        Community community = getCommunityById(id);
+        Community community = getCommunity(id);
 
         community.setTitle(request.getTitle());
         community.setContent(request.getContent());
@@ -53,5 +53,9 @@ public class CommunityService {
         community.setTags(tagRepository.findAllById(request.getTags()));
 
         return communityRepository.save(community);
+    }
+
+    public void deleteCommunity(Long id) {
+        communityRepository.deleteById(id);
     }
 }

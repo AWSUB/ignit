@@ -18,12 +18,12 @@ public class StudyMaterial {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-
     private Long thumbnailId;
 
     @ElementCollection
     private List<Long> imageIds;
+    
+    private String title;
 
     @Column(columnDefinition = "text")
     private String content;

@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.ignit.internship.dto.auth.ForgetPasswordRequest;
 import com.ignit.internship.dto.auth.ResetPasswordRequest;
+import com.ignit.internship.dto.auth.UpdatePasswordRequest;
 import com.ignit.internship.dto.auth.UserLoginRequest;
 import com.ignit.internship.dto.auth.UserRegisterRequest;
 import com.ignit.internship.model.auth.User;
 import com.ignit.internship.repository.auth.UserRepository;
+import com.ignit.internship.service.utils.EmailService;
 
 @Service
 public final class AuthenticationService {
@@ -40,11 +42,11 @@ public final class AuthenticationService {
     }
 
     //use front-end url for email
-    public void register(UserRegisterRequest register) {
+    public void register(UserRegisterRequest request) {
         User user = userRepository.save(new User(
-            register.getUsername(),
-            passwordEncoder.encode(register.getPassword()),
-            register.getEmail(),
+            request.getUsername(),
+            passwordEncoder.encode(request.getPassword()),
+            request.getEmail(),
             new SimpleGrantedAuthority("ROLE_USER")
         ));
 
@@ -64,10 +66,10 @@ public final class AuthenticationService {
         userRepository.save(user);
     }
 
-    public User authenticate(UserLoginRequest login) throws Exception {
-        User user = userRepository.findByUsername(login.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public User authenticate(UserLoginRequest request) throws Exception {
+        User user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        if (!passwordEncoder.matches(login.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Password not match");
         }
 
@@ -78,10 +80,10 @@ public final class AuthenticationService {
         return user;
     }
 
-    public User updatePassword(UserLoginRequest login) throws Exception {
-        User user = userRepository.findByUsername(login.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public User updatePassword(UpdatePasswordRequest request) throws Exception {
+        User user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        if (!passwordEncoder.matches(login.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
             throw new BadCredentialsException("Password not match");
         }
 
@@ -89,7 +91,7 @@ public final class AuthenticationService {
             throw new Exception("User not verified");
         }
 
-        user.setPassword(login.getPassword());
+        user.setPassword(request.getNewPassword());
 
         return userRepository.save(user);
     }

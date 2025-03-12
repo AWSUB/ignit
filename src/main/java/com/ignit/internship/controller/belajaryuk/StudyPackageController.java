@@ -15,7 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ignit.internship.dto.DefaultResponse;
 import com.ignit.internship.dto.ResponseReturn;
 import com.ignit.internship.dto.belajaryuk.StudyPackageRequest;
+import com.ignit.internship.dto.belajaryuk.StudyPackageResponse;
 import com.ignit.internship.dto.payment.PaymentNotificationRequest;
+import com.ignit.internship.dto.payment.TransactionResponse;
 import com.ignit.internship.exception.IdNotFoundException;
 import com.ignit.internship.model.auth.User;
 import com.ignit.internship.service.belajaryuk.StudyPackageService;
@@ -38,22 +40,22 @@ public class StudyPackageController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createStudyPackage(
+    public ResponseEntity<DefaultResponse<StudyPackageResponse>> createStudyPackage(
         @RequestPart MultipartFile file,
         @RequestPart StudyPackageRequest request
     ) throws Exception {
-        return ResponseReturn.ok(studyPackageService.createStudyPackage(file, request));
+        return ResponseReturn.ok(new StudyPackageResponse(studyPackageService.createStudyPackage(file, request)));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getStudyPackage(
+    public ResponseEntity<DefaultResponse<StudyPackageResponse>> getStudyPackage(
         @PathVariable Long id
     ) throws IdNotFoundException {
-        return ResponseReturn.ok(studyPackageService.getStudyPackage(id));
+        return ResponseReturn.ok(new StudyPackageResponse(studyPackageService.getStudyPackage(id)));
     }
 
     @GetMapping("/{id}/transaction")
-    public ResponseEntity<?> createTransaction(
+    public ResponseEntity<DefaultResponse<TransactionResponse>> createTransaction(
         @PathVariable Long id,
         @CurrentSecurityContext SecurityContext context
     ) throws Exception {
