@@ -41,9 +41,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./
-          tags: ${{ secrets.IMAGE_NAME }}
+          tags: ${{ secrets.IMAGE_NAME }}:latest
           push: ${{ github.ref_name == 'master' }}
-          cache-from: type=registry,ref=${{ secrets.IMAGE_NAME }}
+          cache-from: type=registry,ref=${{ secrets.IMAGE_NAME }}:latest
 
       # Step 7: Deploy ke server via SSH
       - name: SSH Deploy
@@ -55,7 +55,7 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           script: |
             echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            docker pull ${{ secrets.IMAGE_NAME }}
+            docker pull ${{ secrets.IMAGE_NAME }}:latest
             docker compose down
             docker compose up -d --build
-            docker images | grep '${{ secrets.IMAGE_NAME }}' | grep '<none>' | awk '{print $3}' | xargs --no-run-if-empty docker rmi
+            docker images | grep '${{ secrets.IMAGE_NAME }}:latest' | grep '<none>' | awk '{print $3}' | xargs --no-run-if-empty docker rmi
