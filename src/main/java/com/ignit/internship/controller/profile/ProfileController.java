@@ -58,7 +58,7 @@ public final class ProfileController {
         return ResponseReturn.ok(new ProfileResponse(profileService.updateProfile(request, user.getId())));
     }
 
-    @PatchMapping("/me/picture")
+    @PatchMapping(path = "/me/picture", consumes = "multipart/form-data")
     public ResponseEntity<DefaultResponse<Object>> updateProfilePicture(
         @RequestPart MultipartFile file,
         @CurrentSecurityContext SecurityContext context
