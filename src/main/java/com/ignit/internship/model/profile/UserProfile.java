@@ -22,6 +22,8 @@ public class UserProfile {
     @Id
     private Long id;
 
+    private Long imageId;
+
     @Column(nullable = false, unique = true)
     private String username;
 
@@ -66,6 +68,14 @@ public class UserProfile {
 
     public Long getId() {
         return id;
+    }
+
+    public Long getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
     }
 
     public String getUsername() {

@@ -1,6 +1,9 @@
 package com.ignit.internship.service.profile;
 
+import java.io.IOException;
+
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ignit.internship.dto.profile.SkillRequest;
 import com.ignit.internship.dto.profile.EducationRequest;
@@ -10,14 +13,21 @@ import com.ignit.internship.model.profile.Education;
 import com.ignit.internship.model.profile.Skill;
 import com.ignit.internship.model.profile.UserProfile;
 import com.ignit.internship.repository.profile.ProfileRepository;
+import com.ignit.internship.service.utils.ImageService;
 
 @Service
 public final class ProfileService {
 
     private final ProfileRepository profileRepository;
 
-    public ProfileService(final ProfileRepository profileRepository) {
+    private final ImageService imageService;
+
+    public ProfileService(
+        final ProfileRepository profileRepository,
+        final ImageService imageService
+    ) {
         this.profileRepository = profileRepository;
+        this.imageService = imageService;
     }
 
     public UserProfile getProfile(Long id) throws IdNotFoundException {
@@ -30,6 +40,11 @@ public final class ProfileService {
         profile.setPassion(request.getPassion());
         profile.setSummary(request.getSummary());
         return profileRepository.save(profile);
+    }
+
+    public void updateProfilePicture(MultipartFile file, Long id) throws IdNotFoundException, IOException {
+        UserProfile profile = getProfile(id);
+        imageService.updateImage(file, profile.getImageId());
     }
 
     public UserProfile addSkill(SkillRequest request, Long id) throws IdNotFoundException {

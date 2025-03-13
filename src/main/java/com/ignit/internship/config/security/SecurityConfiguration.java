@@ -28,11 +28,12 @@ public class SecurityConfiguration {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(
                 request -> request
-                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .requestMatchers(HttpMethod.GET).authenticated()
                     .requestMatchers("/api/auth/**").permitAll()
-                    .requestMatchers("/api/docs/**").permitAll()
-                    .requestMatchers("/api/belajaryuk/payments/verify").permitAll()
-                    .anyRequest().permitAll()
+                    .requestMatchers("/api/belajaryuk/payments/**").permitAll()
+                    .requestMatchers("/api/profile/**").authenticated()
+                    .requestMatchers("/api/temukarier/projects/**").authenticated()
+                    .anyRequest().hasRole("ADMIN")
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)

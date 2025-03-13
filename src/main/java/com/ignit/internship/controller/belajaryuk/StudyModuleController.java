@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,8 +39,8 @@ public class StudyModuleController {
 
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<DefaultResponse<StudyModuleResponse>> createStudyModule(
-        @RequestParam MultipartFile file,
-        @RequestParam StudyModuleRequest request
+        @RequestPart MultipartFile file,
+        @RequestPart StudyModuleRequest request
     ) throws Exception {
         return ResponseReturn.ok(new StudyModuleResponse(studyModuleService.createStudyModule(file, request)));
     }
@@ -155,9 +154,9 @@ public class StudyModuleController {
     @PostMapping("/{moduleId}/exercise")
     public ResponseEntity<DefaultResponse<StudyExerciseResponse>> createStudyExercise(
         @PathVariable Long moduleId,
-        @RequestParam MultipartFile thumbnail,
-        @RequestParam List<MultipartFile> files,
-        @RequestParam StudyExerciseRequest request
+        @RequestPart MultipartFile thumbnail,
+        @RequestPart List<MultipartFile> files,
+        @RequestPart StudyExerciseRequest request
     ) throws Exception {
         return ResponseReturn.ok(new StudyExerciseResponse(
             studyModuleService.createStudyExercise(

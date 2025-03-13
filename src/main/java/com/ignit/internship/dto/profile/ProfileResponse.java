@@ -9,6 +9,8 @@ public class ProfileResponse {
 
     private Long id;
 
+    private Long imageId;
+
     private String username;
 
     private String email;
@@ -63,6 +65,10 @@ public class ProfileResponse {
 
     public Long getId() {
         return id;
+    }
+
+    public Long getImageId() {
+        return imageId;
     }
 
     public String getUsername() {
