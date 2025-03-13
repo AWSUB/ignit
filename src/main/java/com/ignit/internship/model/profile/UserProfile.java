@@ -48,7 +48,7 @@ public class UserProfile {
     @MapsId
     private User user;
 
-    @ManyToMany(mappedBy = "profile", cascade = {PERSIST, MERGE, REFRESH, DETACH})
+    @OneToMany(mappedBy = "profile", cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private List<Project> projects;
 
     @ManyToMany(mappedBy = "profiles", cascade = {PERSIST, MERGE, REFRESH, DETACH})
