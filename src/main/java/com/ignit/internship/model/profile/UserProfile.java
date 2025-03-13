@@ -7,7 +7,8 @@ import com.ignit.internship.model.auth.User;
 import com.ignit.internship.model.belajaryuk.StudyPackage;
 import com.ignit.internship.model.temukarier.Project;
 
-import jakarta.persistence.CascadeType;
+import static jakarta.persistence.CascadeType.*;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -37,20 +38,20 @@ public class UserProfile {
     @Column(columnDefinition = "text")
     private String summary;
 
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "profile", cascade = ALL, orphanRemoval = true)
     private List<Education> educations;
 
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "profile", cascade = ALL, orphanRemoval = true)
     private List<Skill> skills;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = ALL)
     @MapsId
     private User user;
 
-    @ManyToMany(mappedBy = "profile", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "profile", cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private List<Project> projects;
 
-    @ManyToMany(mappedBy = "profiles", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "profiles", cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private List<StudyPackage> studyPackages;
 
     @SuppressWarnings("unused")
