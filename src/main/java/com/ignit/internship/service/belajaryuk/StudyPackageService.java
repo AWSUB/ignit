@@ -10,6 +10,7 @@ import com.ignit.internship.dto.belajaryuk.StudyPackageRequest;
 import com.ignit.internship.dto.payment.PaymentNotificationRequest;
 import com.ignit.internship.dto.payment.TransactionResponse;
 import com.ignit.internship.enums.PaymentStatus;
+import com.ignit.internship.exception.AlreadyBoughtException;
 import com.ignit.internship.exception.IdNotFoundException;
 import com.ignit.internship.model.belajaryuk.StudyPackage;
 import com.ignit.internship.model.profile.UserProfile;
@@ -101,7 +102,7 @@ public class StudyPackageService {
 
     public TransactionResponse createStudyPackageTransaction(Long profileId, Long packageId) throws Exception {
         if (studyPackageRepository.existsByProfileIdAndPackageId(profileId, packageId)) {
-            throw new Exception("Profile already bought the study package");
+            throw new AlreadyBoughtException("Profile already bought the study package");
         }
         
         StudyPackage studyPackage = getStudyPackageById(packageId);

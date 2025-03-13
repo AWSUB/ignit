@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.ignit.internship.model.auth.User;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -47,7 +48,7 @@ public final class JwtTokenService {
         if (temp instanceof Claims claims) {
             return claims;
         }
-        else throw new Exception("Jwt invalid");
+        else throw new JwtException("Jwt invalid");
     }
 
     public SecretKey getSecretKey() {

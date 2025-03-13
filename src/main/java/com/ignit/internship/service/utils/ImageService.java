@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ignit.internship.exception.IdNotFoundException;
+import com.ignit.internship.exception.WrongMediaTypeException;
 import com.ignit.internship.model.utils.Image;
 import com.ignit.internship.repository.utils.ImageRepository;
 
@@ -24,7 +25,7 @@ public class ImageService {
         if (file == null) throw new FileUploadException("No file provided");
 
         if (file.getContentType() == null || !file.getContentType().startsWith("image")) {
-            throw new Exception("Not image type");
+            throw new WrongMediaTypeException("Not image type");
         }
         
         return imageRepository.save(

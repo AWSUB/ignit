@@ -18,6 +18,7 @@ import com.ignit.internship.service.auth.JwtTokenService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -70,7 +71,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 !user.getUsername().equals(username) ||
                 !user.getEmail().equals(email)
             ) {
-                throw new Exception("Token invalid");
+                throw new JwtException("Token invalid");
             }
 
             SecurityContext context = SecurityContextHolder.getContext();

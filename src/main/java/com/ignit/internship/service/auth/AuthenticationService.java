@@ -15,6 +15,8 @@ import com.ignit.internship.dto.auth.ResetPasswordRequest;
 import com.ignit.internship.dto.auth.UpdatePasswordRequest;
 import com.ignit.internship.dto.auth.UserLoginRequest;
 import com.ignit.internship.dto.auth.UserRegisterRequest;
+import com.ignit.internship.exception.IdNotFoundException;
+import com.ignit.internship.exception.InvalidVerificationException;
 import com.ignit.internship.model.auth.User;
 import com.ignit.internship.repository.auth.UserRepository;
 import com.ignit.internship.service.utils.EmailService;
@@ -59,7 +61,7 @@ public final class AuthenticationService {
     }
 
     public void verify(String token) throws Exception {
-        User user = userRepository.findByVerificationToken(token).orElseThrow(() -> new Exception("Verification failed"));
+        User user = userRepository.findByVerificationToken(token).orElseThrow(() -> new InvalidVerificationException("Verification failed"));
         user.setEnabled(true);
         user.setVerificationToken(null);
 
@@ -74,7 +76,7 @@ public final class AuthenticationService {
         }
 
         if (!user.isEnabled()) {
-            throw new Exception("User not verified");
+            throw new InvalidVerificationException("User not verified");
         }
 
         return user;
@@ -88,7 +90,7 @@ public final class AuthenticationService {
         }
 
         if (!user.isEnabled()) {
-            throw new Exception("User not verified");
+            throw new InvalidVerificationException("User not verified");
         }
 
         user.setPassword(request.getNewPassword());
@@ -101,7 +103,7 @@ public final class AuthenticationService {
         User user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         if (!user.getEmail().equals(request.getEmail())) {
-            throw new Exception("Email not match");
+            throw new BadCredentialsException("Email not match");
         }
 
         user.setVerificationToken(UUID.randomUUID().toString());
@@ -116,8 +118,8 @@ public final class AuthenticationService {
         );        
     }
 
-    public void resetPassword(String token, ResetPasswordRequest request) throws Exception {
-        User user = userRepository.findByVerificationToken(token).orElseThrow(() -> new Exception("User not found"));
+    public void resetPassword(String token, ResetPasswordRequest request) throws IdNotFoundException {
+        User user = userRepository.findByVerificationToken(token).orElseThrow(() -> new IdNotFoundException("User not found"));
         user.setVerificationToken(null);
         user.setPassword(request.getPassword());
 

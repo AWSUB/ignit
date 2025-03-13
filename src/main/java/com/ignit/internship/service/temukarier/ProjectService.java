@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ignit.internship.dto.temukarier.ProjectRequest;
 import com.ignit.internship.exception.IdNotFoundException;
+import com.ignit.internship.exception.NonCreatorException;
 import com.ignit.internship.model.profile.UserProfile;
 import com.ignit.internship.model.temukarier.Project;
 import com.ignit.internship.model.utils.Image;
@@ -139,7 +140,7 @@ public class ProjectService {
     public void approveJoinProject(Long profileId, Long projectId, Long applicantId) throws Exception {
         Project project = getProjectById(projectId);
         if (project.getProfile().getId() != profileId) {
-            throw new Exception("Only project createor can approve new member");
+            throw new NonCreatorException("Only project creator can approve new member");
         }
         UserProfile profile = profileRepository.findById(applicantId).orElseThrow(() -> new IdNotFoundException("Profile not found"));
         project.addMembers(profile);

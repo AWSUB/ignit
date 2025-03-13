@@ -10,6 +10,7 @@ import com.ignit.internship.dto.payment.PaymentNotificationRequest;
 import com.ignit.internship.dto.payment.TransactionResponse;
 import com.ignit.internship.enums.PaymentStatus;
 import com.ignit.internship.exception.IdNotFoundException;
+import com.ignit.internship.exception.MissingValueException;
 import com.ignit.internship.model.profile.UserProfile;
 import com.ignit.internship.repository.profile.ProfileRepository;
 import com.midtrans.Midtrans;
@@ -28,7 +29,7 @@ public class PaymentService {
         UserProfile profile = profileRepository.findById(profileId).orElseThrow(() -> new IdNotFoundException("Profile not found"));
 
         if (profile.getFullName() == null || profile.getFullName().isBlank()) {
-            throw new Exception("Full name must be filled before creating transaction");
+            throw new MissingValueException("Full name must be filled before creating transaction");
         }
 
         Map<String, Object> transactionRequest = Map.of(
