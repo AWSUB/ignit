@@ -49,7 +49,7 @@ public class ApplicationConfiguration {
     @Bean
     CommandLineRunner createDefaultAdmin() {
         return _ -> {
-            if (userRepository.findByUsername("admin").isEmpty()) {
+            if (userRepository.findByUsername(adminUsername).isEmpty()) {
                 User admin = new User(
                     adminUsername, 
                     passwordEncoder().encode(adminPassword),

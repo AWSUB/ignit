@@ -28,6 +28,9 @@ public class Community {
     @ManyToMany(cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private List<Tag> tags;
 
+    @SuppressWarnings("unused")
+    private Community() {}
+
     public Community(String title, String content, String url, List<Tag> tags) {
         this.title = title;
         this.content = content;

@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .requestMatchers("/api/auth/**").permitAll()
                     .requestMatchers("/api/docs/**").permitAll()
+                    .requestMatchers("/api/belajaryuk/payments/verify").permitAll()
                     .anyRequest().permitAll()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

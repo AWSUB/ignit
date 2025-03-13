@@ -40,6 +40,9 @@ public class StudyPackage {
     @ManyToMany(cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private List<UserProfile> profiles;
 
+    @SuppressWarnings("unused")
+    private StudyPackage() {}
+
     public StudyPackage(
         String title, 
         String subtitle, 

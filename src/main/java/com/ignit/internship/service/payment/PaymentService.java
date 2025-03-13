@@ -1,6 +1,7 @@
 package com.ignit.internship.service.payment;
 
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.security.core.token.Sha512DigestUtils;
 import org.springframework.stereotype.Service;
@@ -32,10 +33,11 @@ public class PaymentService {
 
         Map<String, Object> transactionRequest = Map.of(
             "transaction_details", Map.of(
-                "order_id", orderId + "-" + profileId,
+                "order_id", orderId + "-" + profileId + "-" + UUID.randomUUID().toString(),
                 "gross_amount", Long.toString(grossAmount)
             ),
             "customer_details", Map.of(
+                "name", profile.getFullName(),
                 "email", profile.getEmail()
             )
         );
