@@ -28,5 +28,20 @@
     "name": "midtrans.production",
     "type": "java.lang.String",
     "description": "Is midtrans on production"
+  },
+  {
+    "name": "admin.username",
+    "type": "java.lang.String",
+    "description": "Default admin username"
+  },
+  {
+    "name": "admin.password",
+    "type": "java.lang.String",
+    "description": "Default admin password"
+  },
+  {
+    "name": "admin.email",
+    "type": "java.lang.String",
+    "description": "Default admin email"
   }
 ]}

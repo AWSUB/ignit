@@ -85,16 +85,28 @@ public class StudyModule {
         return materials;
     }
 
-    public void setMaterials(List<StudyMaterial> materials) {
-        this.materials = materials;
+    public void addMaterial(StudyMaterial material) {
+        this.materials.add(material);
+    }
+
+    public void removeMaterial(Long id) {
+        this.materials.removeIf((material) -> {
+            return material.getId() == id;
+        });
     }
 
     public List<StudyExercise> getExercises() {
         return exercises;
     }
 
-    public void setExercises(List<StudyExercise> exercises) {
-        this.exercises = exercises;
+    public void addExercise(StudyExercise exercise) {
+        this.exercises.add(exercise);
+    }
+
+    public void removeExercise(Long id) {
+        this.materials.removeIf((exercise) -> {
+            return exercise.getId() == id;
+        });
     }
 
     public StudyPackage getStudyPackage() {

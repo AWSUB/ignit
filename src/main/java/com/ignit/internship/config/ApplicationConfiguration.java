@@ -1,5 +1,6 @@
 package com.ignit.internship.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,15 @@ import com.ignit.internship.repository.auth.UserRepository;
 public class ApplicationConfiguration {
 
     private final UserRepository userRepository;
+
+    @Value("${admin.username}")
+    private String adminUsername;
+
+    @Value("${admin.password}")
+    private String adminPassword;
+
+    @Value("${admin.email}")
+    private String adminEmail;
 
     public ApplicationConfiguration(final UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -41,9 +51,9 @@ public class ApplicationConfiguration {
         return _ -> {
             if (userRepository.findByUsername("admin").isEmpty()) {
                 User admin = new User(
-                    "admin", 
-                    passwordEncoder().encode("admin"),
-                    "admin@admin",
+                    adminUsername, 
+                    passwordEncoder().encode(adminPassword),
+                    adminEmail,
                     new SimpleGrantedAuthority("ROLE_USER"),
                     new SimpleGrantedAuthority("ROLE_ADMIN")
                 );

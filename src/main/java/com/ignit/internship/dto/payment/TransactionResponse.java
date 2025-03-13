@@ -8,7 +8,7 @@ public class TransactionResponse {
         this.transactionToken = transactionToken;
     }
 
-    public String gettransactionToken() {
+    public String getTransactionToken() {
         return transactionToken;
     }
 }

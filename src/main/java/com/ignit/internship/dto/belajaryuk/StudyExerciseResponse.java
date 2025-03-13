@@ -2,7 +2,7 @@ package com.ignit.internship.dto.belajaryuk;
 
 import java.util.List;
 
-import com.ignit.internship.model.belajaryuk.StudyMaterial;
+import com.ignit.internship.model.belajaryuk.StudyExercise;
 
 public class StudyExerciseResponse {
     private String title;
@@ -29,13 +29,13 @@ public class StudyExerciseResponse {
         this.moduleId = moduleId;
     }
 
-    public StudyExerciseResponse(StudyMaterial material) {
+    public StudyExerciseResponse(StudyExercise exercise) {
         this(
-            material.getTitle(),
-            material.getThumbnailId(),
-            material.getImageIds(),
-            material.getContent(), 
-            material.getModule().getId()
+            exercise.getTitle(),
+            exercise.getThumbnailId(),
+            exercise.getImageIds(),
+            exercise.getContent(), 
+            exercise.getModule().getId()
         );
     }   
 
