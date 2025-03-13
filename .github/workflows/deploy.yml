@@ -58,4 +58,4 @@ jobs:
             docker pull ${{ secrets.IMAGE_NAME }}:latest
             docker compose down
             docker compose up -d --build
-            docker images | grep '${{ secrets.IMAGE_NAME }}:latest' | grep '<none>' | awk '{print $3}' | xargs --no-run-if-empty docker rmi
+            docker images | grep '${{ secrets.IMAGE_NAME }}' | grep '<none>' | awk '{print $3}' | xargs --no-run-if-empty docker rmi
