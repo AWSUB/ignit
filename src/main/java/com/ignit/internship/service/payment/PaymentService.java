@@ -32,13 +32,16 @@ public class PaymentService {
             throw new MissingValueException("Full name must be filled before creating transaction");
         }
 
+        String[] splitName = profile.getFullName().split(" ");
+
         Map<String, Object> transactionRequest = Map.of(
             "transaction_details", Map.of(
                 "order_id", orderId + "-" + profileId + "-" + UUID.randomUUID().toString(),
                 "gross_amount", Long.toString(grossAmount)
             ),
             "customer_details", Map.of(
-                "name", profile.getFullName(),
+                "first_name", splitName[0],
+                "last_name", (splitName.length > 1) ? splitName[1] : null,
                 "email", profile.getEmail()
             )
         );

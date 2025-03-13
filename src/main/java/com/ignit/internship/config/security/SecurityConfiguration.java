@@ -28,11 +28,11 @@ public class SecurityConfiguration {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(
                 request -> request
-                    .requestMatchers(HttpMethod.GET).authenticated()
                     .requestMatchers("/api/auth/**").permitAll()
                     .requestMatchers("/api/belajaryuk/payments/**").permitAll()
                     .requestMatchers("/api/profile/**").authenticated()
                     .requestMatchers("/api/temukarier/projects/**").authenticated()
+                    .requestMatchers(HttpMethod.GET).authenticated()
                     .anyRequest().hasRole("ADMIN")
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

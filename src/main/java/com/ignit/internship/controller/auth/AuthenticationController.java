@@ -1,7 +1,6 @@
 package com.ignit.internship.controller.auth;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,7 +49,8 @@ public final class AuthenticationController {
     }
 
     @GetMapping("/verify")
-    public ResponseEntity<DefaultResponse<JwtTokenResponse>> verify(@RequestParam String token) throws AuthenticationException {
+    public ResponseEntity<DefaultResponse<JwtTokenResponse>> verify(@RequestParam String token) throws Exception {
+        authenticationService.verify(token);
         return ResponseReturn.ok(null);
     }
 

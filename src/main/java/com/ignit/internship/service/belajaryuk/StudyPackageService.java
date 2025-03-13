@@ -130,5 +130,7 @@ public class StudyPackageService {
         profile.addStudyPackage(studyPackage);
 
         studyPackageRepository.save(studyPackage);
+
+        System.out.println("success!");
     }
 }

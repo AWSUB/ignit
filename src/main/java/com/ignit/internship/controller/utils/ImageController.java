@@ -22,7 +22,7 @@ import com.ignit.internship.model.utils.Image;
 import com.ignit.internship.service.utils.ImageService;
 
 @RestController
-@RequestMapping("/api/images")
+@RequestMapping("/api/utils/images")
 public class ImageController {
 
     private final ImageService imageService;
