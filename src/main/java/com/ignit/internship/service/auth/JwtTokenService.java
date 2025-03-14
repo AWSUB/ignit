@@ -20,7 +20,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Service
-public final class JwtTokenService {
+public class JwtTokenService {
 
     @Value("${security.jwt.secret-key}")
     private String secretKey;

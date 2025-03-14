@@ -16,7 +16,7 @@ import com.ignit.internship.repository.profile.ProfileRepository;
 import com.ignit.internship.service.utils.ImageService;
 
 @Service
-public final class ProfileService {
+public class ProfileService {
 
     private final ProfileRepository profileRepository;
 

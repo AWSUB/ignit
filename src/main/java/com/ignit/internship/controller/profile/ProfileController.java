@@ -31,7 +31,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
 @RequestMapping("/api/profiles")
-public final class ProfileController {
+public class ProfileController {
 
     private final ProfileService profileService;
 

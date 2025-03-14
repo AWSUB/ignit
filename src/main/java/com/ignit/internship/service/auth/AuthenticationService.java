@@ -21,8 +21,10 @@ import com.ignit.internship.model.auth.User;
 import com.ignit.internship.repository.auth.UserRepository;
 import com.ignit.internship.service.utils.EmailService;
 
+import jakarta.transaction.Transactional;
+
 @Service
-public final class AuthenticationService {
+public class AuthenticationService {
 
     private final UserRepository userRepository;
 
@@ -43,6 +45,7 @@ public final class AuthenticationService {
         this.emailService = emailService;
     }
 
+    @Transactional
     public void register(UserRegisterRequest request) {
         User user = userRepository.save(new User(
             request.getUsername(),
@@ -97,6 +100,7 @@ public final class AuthenticationService {
         return userRepository.save(user);
     }
 
+    @Transactional
     public void forgetPassword(ForgetPasswordRequest request) throws Exception {
         User user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
