@@ -43,7 +43,6 @@ public final class AuthenticationService {
         this.emailService = emailService;
     }
 
-    //use front-end url for email
     public void register(UserRegisterRequest request) {
         User user = userRepository.save(new User(
             request.getUsername(),
@@ -55,7 +54,7 @@ public final class AuthenticationService {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(user.getEmail());
         mailMessage.setSubject("Ignit User Verification");
-        mailMessage.setText("Verify by clicking this link below:\n" + baseUrl + "/api/auth/verify?token=" + user.getVerificationToken());
+        mailMessage.setText("Verify by clicking this link below:\n" + baseUrl + "/verify?token=" + user.getVerificationToken());
 
         emailService.sendEmail(mailMessage);
     }
@@ -98,7 +97,6 @@ public final class AuthenticationService {
         return userRepository.save(user);
     }
 
-    //use front-end url for email
     public void forgetPassword(ForgetPasswordRequest request) throws Exception {
         User user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -114,7 +112,7 @@ public final class AuthenticationService {
         mailMessage.setTo(savedUser.getEmail());
         mailMessage.setSubject("Ignit User Forgot Password");
         mailMessage.setText(
-            "Change your password by clicking this link below:\n" + baseUrl + "/api/auth/reset-password?token=" + savedUser.getVerificationToken()
+            "Change your password by clicking this link below:\n" + baseUrl + "/reset-password?token=" + savedUser.getVerificationToken()
         );        
     }
 

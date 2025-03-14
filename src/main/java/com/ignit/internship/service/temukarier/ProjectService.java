@@ -116,7 +116,6 @@ public class ProjectService {
         projectRepository.deleteById(id);
     }
 
-    //use front-end url for email
     public void joinProject(Long profileId, Long projectId) throws IdNotFoundException {
         UserProfile profile = profileRepository.findById(profileId).orElseThrow(() -> new IdNotFoundException("Profile not found"));
         
@@ -130,7 +129,7 @@ public class ProjectService {
             Full Name   : %s
 
             Approve by clicking this link:
-            %s/api/temukarier/projects/%d/approve/%d
+            %s/temukarier/projects/%d/approve/%d
             """, profile.getUsername(), profile.getEmail(), profile.getFullName(), baseUrl, projectId, profile.getId()));
 
         emailService.sendEmail(mailMessage);
