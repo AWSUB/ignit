@@ -35,7 +35,7 @@ public class SecurityConfiguration {
                     .requestMatchers("/api/auth/**").permitAll()
                     .requestMatchers("/api/docs/**").permitAll()
                     .requestMatchers("/api/belajaryuk/payments/**").permitAll()
-                    .requestMatchers("/api/profile/**").authenticated()
+                    .requestMatchers("/api/profiles/**").authenticated()
                     .requestMatchers("/api/temukarier/projects/**").authenticated()
                     .requestMatchers(HttpMethod.GET).authenticated()
                     .anyRequest().hasRole("ADMIN")
