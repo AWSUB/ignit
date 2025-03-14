@@ -29,6 +29,9 @@ import com.ignit.internship.exception.IdNotFoundException;
 import com.ignit.internship.model.auth.User;
 import com.ignit.internship.service.temukarier.ProjectService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+
 @RestController
 @RequestMapping("/api/temukarier/projects")
 public class ProjectController {
@@ -39,31 +42,37 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
+    @Operation(description = "Create Project")
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<DefaultResponse<ProjectResponse>> createProject(
         @RequestPart MultipartFile file,
         @RequestPart ProjectRequest request,
+        @Parameter(hidden = true)
         @CurrentSecurityContext SecurityContext context
     ) throws Exception {
         User user = (User) context.getAuthentication().getPrincipal();
         return ResponseReturn.ok(new ProjectResponse(projectService.createProject(file, request, user.getId())));
     }
 
+    @Operation(description = "Get Project by id")
     @GetMapping("/{id}")
     public ResponseEntity<DefaultResponse<ProjectResponse>> getProject(@PathVariable Long id) throws IdNotFoundException {
         return ResponseReturn.ok(new ProjectResponse(projectService.getProjectById(id)));
     }
 
+    @Operation(description = "Update Project by id")
     @PatchMapping("/{id}")
     public ResponseEntity<DefaultResponse<ProjectResponse>> updateProject(
         @RequestBody ProjectRequest request,
         @PathVariable Long id,
+        @Parameter(hidden = true)
         @CurrentSecurityContext SecurityContext context
     ) throws IdNotFoundException, IOException {
         User user = (User) context.getAuthentication().getPrincipal();
         return ResponseReturn.ok(new ProjectResponse(projectService.updateProject(request, id, user.getId())));
     }
 
+    @Operation(description = "Get Project by page and tag")
     @GetMapping
     public ResponseEntity<DefaultResponse<List<ProjectResponse>>> getProjectByTagsAndPage(
         @RequestParam(defaultValue = "0") int page,
@@ -86,9 +95,11 @@ public class ProjectController {
         }
     }
 
+    @Operation(description = "Join Project by id, token sent to user that creates the project")
     @GetMapping("/{id}/join")
     public ResponseEntity<DefaultResponse<Object>> joinProject(
         @PathVariable Long id,
+        @Parameter(hidden = true)
         @CurrentSecurityContext SecurityContext context
     ) throws IdNotFoundException {
         User user = (User) context.getAuthentication().getPrincipal();
@@ -96,10 +107,12 @@ public class ProjectController {
         return ResponseReturn.ok(null);
     }
 
+    @Operation(description = "Approve Join Project by applicant id, only user that creates the project can approve")
     @GetMapping("/{projectId}/approve/{applicantId}")
     public ResponseEntity<DefaultResponse<Object>> approveJoinProject(
         @PathVariable Long projectId,
         @PathVariable Long applicantId,
+        @Parameter(hidden = true)
         @CurrentSecurityContext SecurityContext context
     ) throws Exception {
         User user = (User) context.getAuthentication().getPrincipal();
@@ -107,6 +120,7 @@ public class ProjectController {
         return ResponseReturn.ok(null);
     }
 
+    @Operation(description = "Delete Project by id")
     @DeleteMapping("/{id}")
     public ResponseEntity<DefaultResponse<Object>> deleteProject(Long id) throws IdNotFoundException {
         projectService.deleteProject(id);

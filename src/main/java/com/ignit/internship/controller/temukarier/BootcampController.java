@@ -26,6 +26,8 @@ import com.ignit.internship.dto.temukarier.BootcampResponse;
 import com.ignit.internship.exception.IdNotFoundException;
 import com.ignit.internship.service.temukarier.BootcampService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/temukarier/bootcamp")
 public class BootcampController {
@@ -36,6 +38,7 @@ public class BootcampController {
         this.bootcampService = bootcampService;
     }
 
+    @Operation(description = "Create Bootcamp")
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<DefaultResponse<BootcampResponse>> createBootcamp(
         @RequestPart MultipartFile file,
@@ -44,11 +47,13 @@ public class BootcampController {
         return ResponseReturn.ok(new BootcampResponse(bootcampService.createBootcamp(file, request)));
     }
 
+    @Operation(description = "Get Bootcamp by id")
     @GetMapping("/{id}")
     public ResponseEntity<DefaultResponse<BootcampResponse>> getBootcamp(@PathVariable Long id) throws IdNotFoundException {
         return ResponseReturn.ok(new BootcampResponse(bootcampService.getBootcampById(id)));
     }
 
+    @Operation(description = "Update Bootcamp by id")
     @PatchMapping("/{id}")
     public ResponseEntity<DefaultResponse<BootcampResponse>> updateBootcamp(
         @RequestBody BootcampRequest request,
@@ -57,6 +62,7 @@ public class BootcampController {
         return ResponseReturn.ok(new BootcampResponse(bootcampService.updateBootcamp(request, id)));
     }   
 
+    @Operation(description = "Get Bootcamp by page and tag")
     @GetMapping
     public ResponseEntity<DefaultResponse<List<BootcampResponse>>> getBootcampByTagsAndPage(
         @RequestParam(defaultValue = "0") int page,
@@ -79,6 +85,7 @@ public class BootcampController {
         }
     }  
 
+    @Operation(description = "Delete Bootcamp by id")
     @DeleteMapping("/{id}")
     public ResponseEntity<DefaultResponse<Object>> deleteBootcamp(@PathVariable Long id) throws IdNotFoundException {
         bootcampService.deleteBootcamp(id);

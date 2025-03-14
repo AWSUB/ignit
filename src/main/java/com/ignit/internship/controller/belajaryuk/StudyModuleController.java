@@ -27,6 +27,9 @@ import com.ignit.internship.exception.IdNotFoundException;
 import com.ignit.internship.model.auth.User;
 import com.ignit.internship.service.belajaryuk.StudyModuleService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+
 @RestController
 @RequestMapping("/api/belajaryuk/modules")
 public class StudyModuleController {
@@ -37,6 +40,7 @@ public class StudyModuleController {
         this.studyModuleService = studyModuleService;
     }
 
+    @Operation(description = "Create Study Module")
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<DefaultResponse<StudyModuleResponse>> createStudyModule(
         @RequestPart MultipartFile file,
@@ -45,15 +49,18 @@ public class StudyModuleController {
         return ResponseReturn.ok(new StudyModuleResponse(studyModuleService.createStudyModule(file, request)));
     }
 
+    @Operation(description = "Get Study Module by id")
     @GetMapping("/{id}")
     public ResponseEntity<DefaultResponse<StudyModuleResponse>> getStudyModule(
         @PathVariable Long id,
+        @Parameter(hidden = true)
         @CurrentSecurityContext SecurityContext context
     ) throws IdNotFoundException {
         User user = (User) context.getAuthentication().getPrincipal();
         return ResponseReturn.ok(new StudyModuleResponse(studyModuleService.getStudyModuleByModuleIdAndProfileId(id, user.getId())));
     }
 
+    @Operation(description = "Update Study Module by id")
     @PatchMapping("/{id}")
     public ResponseEntity<DefaultResponse<StudyModuleResponse>> updateStudyModule(
         @PathVariable Long id,
@@ -62,16 +69,19 @@ public class StudyModuleController {
         return ResponseReturn.ok(new StudyModuleResponse(studyModuleService.updateStudyModule(request, id)));
     }
 
+    @Operation(description = "Delete Study Module by id")
     @DeleteMapping("/{id}")
     public ResponseEntity<DefaultResponse<Object>> deleteStudyModule(@PathVariable Long id) throws IdNotFoundException {
         studyModuleService.deleteStudyModule(id);
         return ResponseReturn.ok(null);
     }
 
+    @Operation(description = "Get Study Material by Study Module id and Study Material id")
     @GetMapping("/{moduleId}/materials/{materialId}")
     public ResponseEntity<DefaultResponse<StudyMaterialResponse>> getStudyMaterial(
         @PathVariable Long moduleId,
         @PathVariable Long materialId,
+        @Parameter(hidden = true)
         @CurrentSecurityContext SecurityContext context
     ) throws IdNotFoundException {
         User user = (User) context.getAuthentication().getPrincipal();
@@ -80,9 +90,11 @@ public class StudyModuleController {
         ));
     }
 
+    @Operation(description = "Get All Study Material by Study Module id")
     @GetMapping("/{moduleId}/materials")
     public ResponseEntity<DefaultResponse<List<StudyMaterialResponse>>> getAllStudyMaterial(
         @PathVariable Long moduleId,
+        @Parameter(hidden = true)
         @CurrentSecurityContext SecurityContext context
     ) throws IdNotFoundException {
         User user = (User) context.getAuthentication().getPrincipal();
@@ -91,6 +103,7 @@ public class StudyModuleController {
         );
     }
 
+    @Operation(description = "Create Study Material by Study Module id")
     @PostMapping("/{moduleId}/materials")
     public ResponseEntity<DefaultResponse<StudyMaterialResponse>> createStudyMaterial(
         @PathVariable Long moduleId,
@@ -108,6 +121,7 @@ public class StudyModuleController {
         ));
     }
 
+    @Operation(description = "Update Study Material by Study Module id and Study Material id")
     @PatchMapping("/{moduleId}/materials/{materialId}")
     public ResponseEntity<DefaultResponse<StudyMaterialResponse>> updateStudyMaterial(
         @PathVariable Long moduleId,
@@ -119,6 +133,7 @@ public class StudyModuleController {
         ));
     }
 
+    @Operation(description = "Delete Study Material by Study Module id and Study Material id")
     @DeleteMapping("/{moduleId}/materials/{materialId}")
     public ResponseEntity<DefaultResponse<Object>> deleteStudyMaterial(
         @PathVariable Long moduleId,
@@ -128,10 +143,12 @@ public class StudyModuleController {
         return ResponseReturn.ok(null);
     }
 
+    @Operation(description = "Get Study Exercise by Study Module id and Study Exercise id")
     @GetMapping("/{moduleId}/exercises/{exerciseId}")
     public ResponseEntity<DefaultResponse<StudyExerciseResponse>> getStudyExercise(
         @PathVariable Long moduleId,
         @PathVariable Long exerciseId,
+        @Parameter(hidden = true)
         @CurrentSecurityContext SecurityContext context
     ) throws IdNotFoundException {
         User user = (User) context.getAuthentication().getPrincipal();
@@ -140,9 +157,11 @@ public class StudyModuleController {
         ));
     }
 
+    @Operation(description = "Get All Study Exercise by Study Module id")
     @GetMapping("/{moduleId}/exercises")
     public ResponseEntity<DefaultResponse<List<StudyExerciseResponse>>> getAllStudyExercise(
         @PathVariable Long moduleId,
+        @Parameter(hidden = true)
         @CurrentSecurityContext SecurityContext context
     ) throws IdNotFoundException {
         User user = (User) context.getAuthentication().getPrincipal();
@@ -151,6 +170,7 @@ public class StudyModuleController {
         );
     }
 
+    @Operation(description = "Create Study Exercise by Study Module id")
     @PostMapping("/{moduleId}/exercise")
     public ResponseEntity<DefaultResponse<StudyExerciseResponse>> createStudyExercise(
         @PathVariable Long moduleId,
@@ -167,7 +187,8 @@ public class StudyModuleController {
             )
         ));
     }
-    
+
+    @Operation(description = "Update Study Exercise by Study Module id and Study Exercise id")
     @PatchMapping("/{moduleId}/exercises/{exerciseId}")
     public ResponseEntity<DefaultResponse<StudyExerciseResponse>> updateStudyExercise(
         @PathVariable Long moduleId,
@@ -179,6 +200,7 @@ public class StudyModuleController {
         ));
     }
 
+    @Operation(description = "Delete Study Exercise by Study Module id and Study Exercise id")
     @DeleteMapping("/{moduleId}/exercises/{exerciseId}")
     public ResponseEntity<DefaultResponse<Object>> deleteStudyExercise(
         @PathVariable Long moduleId,

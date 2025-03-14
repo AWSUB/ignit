@@ -18,6 +18,8 @@ import com.ignit.internship.exception.IdNotFoundException;
 import com.ignit.internship.model.auth.User;
 import com.ignit.internship.service.belajaryuk.StudyPackageService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/belajaryuk/payments")
 public class StudyPaymentController {
@@ -28,15 +30,17 @@ public class StudyPaymentController {
         this.studyPackageService = studyPackageService;
     }
 
-    @GetMapping("/transaction/{id}")
+    @Operation(description = "Create Transaction by Study Package id, token to be used by front-end using snap.js")
+    @GetMapping("/transaction/{packageId}")
     public ResponseEntity<DefaultResponse<TransactionResponse>> createTransaction(
-        @PathVariable Long id,
+        @PathVariable Long packageId,
         @CurrentSecurityContext SecurityContext context
     ) throws Exception {
         User user = (User) context.getAuthentication().getPrincipal();
-        return ResponseReturn.ok(studyPackageService.createStudyPackageTransaction(user.getId(), id));
+        return ResponseReturn.ok(studyPackageService.createStudyPackageTransaction(user.getId(), packageId));
     }
 
+    @Operation(description = "Verify and process payment by Midtrans, used only by Midtrans")
     @PostMapping("/verify")
     public ResponseEntity<DefaultResponse<Object>> verifyPayment(@RequestBody PaymentNotificationRequest request) throws IllegalArgumentException, IdNotFoundException {
         studyPackageService.processStudyPackagePayment(request);

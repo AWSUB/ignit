@@ -14,7 +14,7 @@ import com.ignit.internship.model.belajaryuk.StudyModule;
 @Repository
 public interface StudyModuleRepository extends JpaRepository<StudyModule, Long> {
 
-    @Query("SELECT m FROM StudyModule m JOIN m.studyPackage.profiles p WHERE m = :moduleId AND p = :profileId")
+    @Query("SELECT m FROM StudyModule m JOIN m.studyPackage.profiles p WHERE m.id = :moduleId AND p.id = :profileId")
     Optional<StudyModule> findByModuleIdAndProfileId(Long moduleId, Long profileId);
 
     @Query("SELECT mt FROM StudyMaterial mt WHERE mt.module.id = :moduleId")

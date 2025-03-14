@@ -26,6 +26,8 @@ import com.ignit.internship.dto.temukarier.MagangResponse;
 import com.ignit.internship.exception.IdNotFoundException;
 import com.ignit.internship.service.temukarier.MagangService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/temukarier/magang")
 public class MagangController {
@@ -36,6 +38,7 @@ public class MagangController {
         this.magangService = magangService;
     }
 
+    @Operation(description = "Create Magang")
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<DefaultResponse<MagangResponse>> createMagang(
         @RequestPart MultipartFile file,
@@ -44,11 +47,13 @@ public class MagangController {
         return ResponseReturn.ok(new MagangResponse(magangService.createMagang(file, request)));
     }
 
+    @Operation(description = "Get Magang by id")
     @GetMapping("/{id}")
     public ResponseEntity<DefaultResponse<MagangResponse>> getMagang(@PathVariable Long id) throws IdNotFoundException {
         return ResponseReturn.ok(new MagangResponse(magangService.getMagangById(id)));
     }
 
+    @Operation(description = "Update Magang by id")
     @PatchMapping("/{id}")
     public ResponseEntity<DefaultResponse<MagangResponse>> updateMagang(
         @RequestBody MagangRequest request,
@@ -57,6 +62,7 @@ public class MagangController {
         return ResponseReturn.ok(new MagangResponse(magangService.updateMagang(request, id)));
     }   
 
+    @Operation(description = "Get Magang by page and tag")
     @GetMapping
     public ResponseEntity<DefaultResponse<List<MagangResponse>>> getMagangByTagsAndPage(
         @RequestParam(defaultValue = "0") int page,
@@ -79,6 +85,7 @@ public class MagangController {
         }
     }
 
+    @Operation(description = "Delete Magang by id")
     @DeleteMapping("/{id}")
     public ResponseEntity<DefaultResponse<Object>> deleteMagang(@PathVariable Long id) throws IdNotFoundException {
         magangService.deleteMagang(id);

@@ -12,6 +12,8 @@ import com.ignit.internship.dto.cakrawala.InfoResponse;
 import com.ignit.internship.exception.IdNotFoundException;
 import com.ignit.internship.service.cakrawala.InfoService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class InfoController {
         this.infoService = infoService;
     }
 
+    @Operation(description = "Create Info")
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<DefaultResponse<InfoResponse>> createInfo(
         @RequestPart List<MultipartFile> files,
@@ -39,12 +42,14 @@ public class InfoController {
     ) throws Exception {
         return ResponseReturn.ok(new InfoResponse(infoService.createInfo(files, request)));
     }
-    
+
+    @Operation(description = "Get Info by Tag")
     @GetMapping("/{name}")
     public ResponseEntity<DefaultResponse<InfoResponse>> getInfo(@PathVariable String name) throws IdNotFoundException {
         return ResponseReturn.ok(new InfoResponse(infoService.getInfo(name)));
     }
 
+    @Operation(description = "Update Info by Tag")
     @PatchMapping("/{name}")
     public ResponseEntity<DefaultResponse<InfoResponse>> updateInfo(
         @RequestBody InfoRequest request,

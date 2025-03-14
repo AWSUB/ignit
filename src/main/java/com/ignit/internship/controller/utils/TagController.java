@@ -17,6 +17,8 @@ import com.ignit.internship.dto.utils.TagRequest;
 import com.ignit.internship.dto.utils.TagResponse;
 import com.ignit.internship.service.utils.TagService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/utils/tags")
 public class TagController {
@@ -27,16 +29,19 @@ public class TagController {
         this.tagService = tagService;
     }
 
+    @Operation(description = "Create Tag")
     @PostMapping
     public ResponseEntity<DefaultResponse<TagResponse>> createTag(@RequestBody TagRequest request) {
         return ResponseReturn.ok(new TagResponse(tagService.createTag(request.getName())));
     }
 
+    @Operation(description = "Get All Tag")
     @GetMapping
     public ResponseEntity<DefaultResponse<List<TagResponse>>> getAllTag() {
         return ResponseReturn.ok(tagService.getAllTag().stream().map(t -> new TagResponse(t)).toList());
     }
 
+    @Operation(description = "Delete Tag by name")
     @DeleteMapping("/{name}")
     public ResponseEntity<DefaultResponse<Object>> deleteTag(@PathVariable String name) {
         tagService.deleteTag(name);

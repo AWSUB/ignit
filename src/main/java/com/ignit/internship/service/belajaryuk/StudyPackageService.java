@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.ignit.internship.dto.belajaryuk.StudyPackageRequest;
 import com.ignit.internship.dto.payment.PaymentNotificationRequest;
 import com.ignit.internship.dto.payment.TransactionResponse;
@@ -61,6 +60,10 @@ public class StudyPackageService {
 
     public List<StudyPackage> getStudyPackageByPageAndTag(Pageable pageable, String tag) {
         return studyPackageRepository.findByTagName(tag, pageable).toList();
+    }
+
+    public List<StudyPackage> getOwnedStudyPackageByPageAndTag(Pageable pageable, Long id) {
+        return studyPackageRepository.findAllByProfileId(id, pageable).toList();
     }
 
     @Transactional

@@ -21,6 +21,8 @@ import com.ignit.internship.exception.IdNotFoundException;
 import com.ignit.internship.model.utils.Image;
 import com.ignit.internship.service.utils.ImageService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/utils/images")
 public class ImageController {
@@ -31,6 +33,7 @@ public class ImageController {
         this.imageService = imageService;
     }
 
+    @Operation(description = "Upload Image to database")
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<DefaultResponse<Object>> uploadImage(
         @RequestPart MultipartFile file
@@ -39,12 +42,14 @@ public class ImageController {
         return ResponseReturn.created(URI.create("/image/" + image.getId()), null);
     }
 
+    @Operation(description = "Get Image by id")
     @GetMapping("/{id}")
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) throws IdNotFoundException {
         Image image = imageService.getImage(id);
         return ResponseEntity.ok().contentType(MediaType.valueOf(image.getType())).body(image.getData());
     }
 
+    @Operation(description = "Update Image by id")
     @PatchMapping(path = "/{id}", consumes = "multipart/form-data")
     public ResponseEntity<DefaultResponse<Object>> updateImage(
         @PathVariable Long id,
@@ -54,6 +59,7 @@ public class ImageController {
         return ResponseReturn.ok(null);
     }
 
+    @Operation(description = "Delete Image by id")
     @DeleteMapping("/(id)")
     public ResponseEntity<DefaultResponse<Object>> deleteImage(@PathVariable Long id) {
         imageService.deleteImage(id);
