@@ -36,8 +36,8 @@ public class ProjectService {
 
     private final EmailService emailService;
 
-    @Value("${base.url}")
-    private String baseUrl;
+    @Value("${frontend.url}")
+    private String frontendUrl;
 
     public ProjectService(
         final ProjectRepository projectRepository, 
@@ -130,7 +130,7 @@ public class ProjectService {
 
             Approve by clicking this link:
             %s/temukarier/projects/%d/approve/%d
-            """, profile.getUsername(), profile.getEmail(), profile.getFullName(), baseUrl, projectId, profile.getId()));
+            """, profile.getUsername(), profile.getEmail(), profile.getFullName(), frontendUrl, projectId, profile.getId()));
 
         emailService.sendEmail(mailMessage);
     }

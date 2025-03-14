@@ -3,6 +3,7 @@ package com.ignit.internship.controller.belajaryuk;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +42,7 @@ public class StudyPaymentController {
     }
 
     @Operation(description = "Verify and process payment by Midtrans, used only by Midtrans")
+    @CrossOrigin
     @PostMapping("/verify")
     public ResponseEntity<DefaultResponse<Object>> verifyPayment(@RequestBody PaymentNotificationRequest request) throws IllegalArgumentException, IdNotFoundException {
         studyPackageService.processStudyPackagePayment(request);

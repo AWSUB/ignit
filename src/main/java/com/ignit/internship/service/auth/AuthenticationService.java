@@ -30,8 +30,8 @@ public final class AuthenticationService {
 
     private final EmailService emailService;
 
-    @Value("${base.url}")
-    private String baseUrl;
+    @Value("${frontend.url}")
+    private String frontendUrl;
 
     public AuthenticationService(
         final UserRepository userRepository, 
@@ -54,7 +54,7 @@ public final class AuthenticationService {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(user.getEmail());
         mailMessage.setSubject("Ignit User Verification");
-        mailMessage.setText("Verify by clicking this link below:\n" + baseUrl + "/verify?token=" + user.getVerificationToken());
+        mailMessage.setText("Verify by clicking this link below:\n" + frontendUrl + "/verify?token=" + user.getVerificationToken());
 
         emailService.sendEmail(mailMessage);
     }
@@ -112,7 +112,7 @@ public final class AuthenticationService {
         mailMessage.setTo(savedUser.getEmail());
         mailMessage.setSubject("Ignit User Forgot Password");
         mailMessage.setText(
-            "Change your password by clicking this link below:\n" + baseUrl + "/reset-password?token=" + savedUser.getVerificationToken()
+            "Change your password by clicking this link below:\n" + frontendUrl + "/reset-password?token=" + savedUser.getVerificationToken()
         );        
     }
 

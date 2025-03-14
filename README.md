@@ -7,4 +7,4 @@ Resource used:
 
 ## **API DOCS**
 
-Documentation: [link](https://localhost:8080/api/docs/index.html).
+Documentation: [link](https://be-intern.bccdev.id/alex/api/docs/swagger-ui/index.html).

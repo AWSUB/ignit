@@ -10,11 +10,6 @@
     "description": "Jwt Expiration Time"
   },
   {
-    "name": "base.url",
-    "type": "java.lang.String",
-    "description": "Base Api Url"
-  },
-  {
     "name": "midtrans.server-key",
     "type": "java.lang.String",
     "description": "Midtrans Server Key"
@@ -43,5 +38,10 @@
     "name": "admin.email",
     "type": "java.lang.String",
     "description": "Default admin email"
+  },
+  {
+    "name": "frontend.url",
+    "type": "java.lang.String",
+    "description": "Url on front end"
   }
 ]}
