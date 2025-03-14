@@ -43,5 +43,10 @@
     "name": "frontend.url",
     "type": "java.lang.String",
     "description": "Url on front end"
+  },
+  {
+    "name": "backend.url",
+    "type": "java.lang.String",
+    "description": "Url on backend"
   }
 ]}

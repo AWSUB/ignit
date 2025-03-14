@@ -22,6 +22,9 @@ public class SecurityConfiguration {
     @Value("${frontend.url}")
     private String frontendUrl;
 
+    @Value("${backend.url}")
+    private String backendUrl;
+
     public SecurityConfiguration(final JwtTokenFilter jwtTokenFilter) {
         this.jwtTokenFilter = jwtTokenFilter;
     }
@@ -50,9 +53,10 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of(frontendUrl));
+        configuration.setAllowedOrigins(List.of(frontendUrl, backendUrl));
         configuration.setAllowedMethods(List.of("GET", "POST", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
