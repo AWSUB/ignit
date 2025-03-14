@@ -60,7 +60,8 @@ public class InfoService {
             request.getRelatedStudies(),
             request.getCareerOpportunities(),
             request.getResponsibilites(),
-            request.getQuestions(),
+            request.getQuestion(),
+            request.getOptions(),
             request.getAnswer(),
             tagRepository.findById(request.getTag()).orElseThrow(() -> new IdNotFoundException("Tag not found")),
             imageIds
@@ -84,7 +85,8 @@ public class InfoService {
         info.setRelatedStudies(request.getRelatedStudies());
         info.setCareerOpportunities(request.getCareerOpportunities());
         info.setResponsibilites(request.getResponsibilites());
-        info.setQuestions(request.getQuestions());
+        info.setQuestion(request.getQuestion());
+        info.setOptions(request.getOptions());
         info.setAnswer(request.getAnswer());
 
         return info;

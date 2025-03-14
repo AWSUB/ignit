@@ -18,7 +18,9 @@ public class InfoRequest {
 
     private List<String> responsibilites;
 
-    private List<String> questions;
+    private String question;
+
+    private List<String> options;
 
     private Integer answer;
 
@@ -32,7 +34,8 @@ public class InfoRequest {
         List<String> relatedStudies, 
         List<String> careerOpportunities, 
         List<String> responsibilites,
-        List<String> questions, 
+        String question,
+        List<String> options, 
         Integer answer, 
         String tag
     ) {
@@ -43,7 +46,7 @@ public class InfoRequest {
         this.relatedStudies = relatedStudies;
         this.careerOpportunities = careerOpportunities;
         this.responsibilites = responsibilites;
-        this.questions = questions;
+        this.options = options;
         this.answer = answer;
         this.tag = tag;
     }
@@ -76,8 +79,12 @@ public class InfoRequest {
         return responsibilites;
     }
 
-    public List<String> getQuestions() {
-        return questions;
+    public String getQuestion() {
+        return question;
+    }
+
+    public List<String> getOptions() {
+        return options;
     }
 
     public Integer getAnswer() {

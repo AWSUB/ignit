@@ -39,8 +39,10 @@ public class Info {
     @ElementCollection
     private List<String> responsibilites;
 
+    private String question;
+
     @ElementCollection
-    private List<String> questions;
+    private List<String> options;
 
     private Integer answer;
 
@@ -65,7 +67,8 @@ public class Info {
         List<String> relatedStudies, 
         List<String> careerOpportunities, 
         List<String> responsibilites,
-        List<String> questions,
+        String question,
+        List<String> options,
         Integer answer,
         Tag tag,
         List<Long> imageIds
@@ -77,7 +80,8 @@ public class Info {
         this.relatedStudies = relatedStudies;
         this.careerOpportunities = careerOpportunities;
         this.responsibilites = responsibilites;
-        this.questions = questions;
+        this.question = question;
+        this.options = options;
         this.answer = answer;
         this.tag = tag;
         this.imageIds = imageIds;
@@ -143,12 +147,20 @@ public class Info {
         this.responsibilites = responsibilites;
     }
 
-    public List<String> getQuestions() {
-        return questions;
+    public String getQuestion() {
+        return question;
     }
 
-    public void setQuestions(List<String> questions) {
-        this.questions = questions;
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public List<String> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<String> questions) {
+        this.options = questions;
     }
 
     public Integer getAnswer() {

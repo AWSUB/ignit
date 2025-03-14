@@ -20,7 +20,9 @@ public class InfoResponse {
 
     private List<String> responsibilites;
 
-    private List<String> questions;
+    private String question;
+
+    private List<String> options;
 
     private Integer answer;
 
@@ -36,7 +38,8 @@ public class InfoResponse {
         List<String> relatedStudies, 
         List<String> careerOpportunities, 
         List<String> responsibilites,
-        List<String> questions, 
+        String question,
+        List<String> options, 
         Integer answer,
         String tag,
         List<Long> imageIds
@@ -48,7 +51,7 @@ public class InfoResponse {
         this.relatedStudies = relatedStudies;
         this.careerOpportunities = careerOpportunities;
         this.responsibilites = responsibilites;
-        this.questions = questions;
+        this.options = options;
         this.answer = answer;
         this.tag = tag;
         this.imageIds = imageIds;
@@ -63,7 +66,8 @@ public class InfoResponse {
             info.getRelatedStudies(),
             info.getCareerOpportunities(),
             info.getResponsibilites(),
-            info.getQuestions(),
+            info.getQuestion(),
+            info.getOptions(),
             info.getAnswer(),
             info.getTag().getName(),
             info.getImageIds()
@@ -98,8 +102,12 @@ public class InfoResponse {
         return responsibilites;
     }
 
-    public List<String> getQuestions() {
-        return questions;
+    public String getQuestion() {
+        return question;
+    }
+
+    public List<String> getOptions() {
+        return options;
     }
 
     public Integer getAnswer() {
