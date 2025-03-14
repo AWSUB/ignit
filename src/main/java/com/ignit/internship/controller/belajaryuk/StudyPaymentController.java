@@ -20,6 +20,7 @@ import com.ignit.internship.model.auth.User;
 import com.ignit.internship.service.belajaryuk.StudyPackageService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
 @RequestMapping("/api/belajaryuk/payments")
@@ -35,6 +36,7 @@ public class StudyPaymentController {
     @GetMapping("/transaction/{packageId}")
     public ResponseEntity<DefaultResponse<TransactionResponse>> createTransaction(
         @PathVariable Long packageId,
+        @Parameter(hidden = true)
         @CurrentSecurityContext SecurityContext context
     ) throws Exception {
         User user = (User) context.getAuthentication().getPrincipal();
